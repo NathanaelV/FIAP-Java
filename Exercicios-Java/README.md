@@ -1,5 +1,9 @@
 # Exercícios - Java
 
+Repositório original: https://github.com/victorperin/Exercicios-Java
+
+---
+
 
 Os mesmos exercícios do semestre passado, feitos em C#, agora, recriados em Java.
 
