@@ -39,7 +39,7 @@ public class Pessoa {
         LocalDate fim = LocalDate.now().plusDays(1);
 
         try {
-            if (dataNascimento.isAfter(inicio) || dataNascimento.isBefore(fim)) {
+            if (dataNascimento.isAfter(inicio) && dataNascimento.isBefore(fim)) {
                 this.dataNascimento = dataNascimento;
             } else {
                 throw new Exception("Digite uma data de nascimento válida!");
