@@ -33,7 +33,20 @@ public class Pessoa {
     }
 
     public void setDataNascimento(LocalDate dataNascimento) {
-        this.dataNascimento = dataNascimento;
+        // Adicionar o Less one day
+        LocalDate inicio = LocalDate.of(1900, 1, 1).minusDays(1);
+        // Adicionar o more one day
+        LocalDate fim = LocalDate.now().plusDays(1);
+
+        try {
+            if (dataNascimento.isAfter(inicio) || dataNascimento.isBefore(fim)) {
+                this.dataNascimento = dataNascimento;
+            } else {
+                throw new Exception("Digite uma data de nascimento válida!");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public String getDocumento() {
