@@ -1,8 +1,6 @@
 package br.com.challenge.bean;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import javax.swing.*;
 
 public class Paciente extends Pessoa {
     private int numeroCadastro;
@@ -44,11 +42,18 @@ public class Paciente extends Pessoa {
     }
 
 
-//    public void abreOcorrencia(String assunto, String texto) {
-//        System.out.println("Ocorrência aberta para o paciente " + this.getNome() + ": " + assunto + " - " + texto);
-//        // In a real application, this would create an Ocorrencia object and persist it.
-//    }
-//
+    public void abreOcorrencia(String assunto, String texto) {
+        Ocorrencia ocorrencia = new Ocorrencia(this, assunto, texto);
+        String mensagem = String.format(
+                "Ocorrência aberta para o paciente %s:\n%s - %s\n    %s ",
+                ocorrencia.getPaciente().getNome(),
+                ocorrencia.getCodigoChamado(),
+                ocorrencia.getAssunto(),
+                ocorrencia.getTexto()
+        );
+        JOptionPane.showMessageDialog(null, mensagem);
+    }
+
 //    public void novaConsulta(LocalDate dataHora, Tratamento tratamento) {
 //        System.out.println("Nova consulta agendada para " + this.getNome() + " em " + dataHora + " para tratamento: " + tratamento.getNome());
 //        // In a real application, this would create a Consulta object.

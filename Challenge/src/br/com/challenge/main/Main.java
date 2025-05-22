@@ -19,8 +19,8 @@ public class Main {
         Acompanhante acompanhante;
         Contato contatoAcompanhante;
         String menuOpcoes, nomePaciente, aux, documento, dataStr, telefone, email, logradouro, numero, complemento, bairro, cidade,
-                estado, cep, nomeRede, codigoRede, tipoDePlano, nomeAcompanhante;
-        int escolha, numeroCadastro, opcaoAcompanhante;
+                estado, cep, nomeRede, codigoRede, tipoDePlano, nomeAcompanhante, assuntoOcorrencia, textoOcorrencia;
+        int escolha, numeroCadastro, opcaoAcompanhante, escolhaMenu;
         boolean telOuEmail;
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate dataNascimento;
@@ -53,7 +53,7 @@ public class Main {
                             try {
                                 dataNascimento = LocalDate.parse(dataStr, dtf);
                                 paciente.setDataNascimento(dataNascimento);
-                                System.out.println(dataNascimento);
+                                System.out.println("\n\n" + dataNascimento);
                             } catch (Exception e) {
                                 JOptionPane.showMessageDialog(null, "Erro: Formato de data inválido. Use DD/MM/YYYY.");
                             }
@@ -165,7 +165,13 @@ public class Main {
 
                         // Acompanhante
 
-                        opcaoAcompanhante = JOptionPane.showConfirmDialog(null, "O paciente possui um acompanhante?", "Terá paciente?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        opcaoAcompanhante = JOptionPane.showConfirmDialog(
+                                null,
+                                "O paciente possui um acompanhante?",
+                                "Terá paciente?",
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE
+                        );
 
                         if (opcaoAcompanhante == JOptionPane.YES_OPTION) {
                             acompanhante = new Acompanhante();
@@ -224,7 +230,7 @@ public class Main {
                                 "Contact Information:\n" +
                                 "Phone: " + paciente.getContato().getTelefone() + "\n" +
                                 "Email: " + paciente.getContato().getEmail();
-                        JOptionPane.showMessageDialog(null, patientInfo);
+//                        JOptionPane.showMessageDialog(null, patientInfo);
 
                         String addressInfo = "=== Address Information ===\n" +
                                 "Street: " + paciente.getEndereco().getLogradouro() + "\n" +
@@ -234,13 +240,13 @@ public class Main {
                                 "City: " + paciente.getEndereco().getCidade() + "\n" +
                                 "State: " + paciente.getEndereco().getEstado() + "\n" +
                                 "ZIP: " + paciente.getEndereco().getCep();
-                        JOptionPane.showMessageDialog(null, addressInfo);
+//                        JOptionPane.showMessageDialog(null, addressInfo);
 
                         String healthcareInfo = "=== Healthcare Network ===\n" +
                                 "Network: " + paciente.getRedeCredenciada().getNome() + "\n" +
                                 "Plan Code: " + paciente.getRedeCredenciada().getCodigoConvenio() + "\n" +
                                 "Plan Type: " + paciente.getRedeCredenciada().getTipoDePlano();
-                        JOptionPane.showMessageDialog(null, healthcareInfo);
+//                        JOptionPane.showMessageDialog(null, healthcareInfo);
 
                         if (paciente.getAcompanhante() != null) {
                             String accompanistInfo = "=== Accompanying Person ===\n" +
@@ -250,49 +256,64 @@ public class Main {
                                     "Contact Information:\n" +
                                     "Phone: " + paciente.getAcompanhante().getContato().getTelefone() + "\n" +
                                     "Email: " + paciente.getAcompanhante().getContato().getEmail();
-                            JOptionPane.showMessageDialog(null, accompanistInfo);
+//                            JOptionPane.showMessageDialog(null, accompanistInfo);
                         }
 
                         
                         // Métodos de Paciente
                         
                         // Menu de opções
-                        menuOpcoes = "Escolha uma opção:\n\n" +
-                                "(1) Abrir Ocorrência\n" +
-                                "(2) Marcar Consulta\n" +
-                                "(3) Remarcar Consulta\n" +
-                                "(0) Sair\n\n" +
-                                "Digite sua opção: ";
+                        do {
+                            try {
+                                menuOpcoes = "Escolha uma opção:\n\n" +
+                                        "(1) Abrir Ocorrência\n" +
+                                        "(2) Marcar Consulta\n" +
+                                        "(3) Remarcar Consulta\n" +
+                                        "(0) Sair\n\n" +
+                                        "Digite sua opção: ";
 
-                        String opcao = JOptionPane.showInputDialog(null, menuOpcoes);
+                                aux = JOptionPane.showInputDialog(null, menuOpcoes);
+                                escolhaMenu = Integer.parseInt(aux);
 
-                        try {
-                            int escolhaMenu = Integer.parseInt(opcao);
+                                switch (escolhaMenu) {
+                                    case 1:
+                                        // Abrir ocorrência
+                                        do {
+//                                            assuntoOcorrencia = JOptionPane.showInputDialog("Tema da ocorrência");
+                                            assuntoOcorrencia = "Consulta online";
+                                        } while (assuntoOcorrencia.isEmpty());
 
-                            switch (escolhaMenu) {
-                                case 1:
-                                    // Abrir Ocorrência
-                                    break;
-                                case 2:
-                                    // Marcar Consulta
-                                    break;
-                                case 3:
-                                    // Remarcar Consulta 
-                                    break;
-                                case 0:
-                                    break;
-                                default:
-                                    JOptionPane.showMessageDialog(null, "Opção inválida!");
+                                        do {
+//                                            textoOcorrencia = JOptionPane.showInputDialog("Qual a ocorrência:");
+                                            textoOcorrencia = "Não consigo encontrar a tela para conectar.";
+                                        } while (textoOcorrencia.isEmpty());
+
+                                        paciente.abreOcorrencia(assuntoOcorrencia, textoOcorrencia);
+                                        break;
+                                    case 2:
+                                        // Marcar Consulta
+                                        
+
+                                        break;
+                                    case 3:
+                                        // Remarcar Consulta
+                                        break;
+                                    case 0:
+                                        break;
+                                    default:
+                                        JOptionPane.showMessageDialog(null, "Opção inválida!");
+                                }
+                            } catch (Exception e) {
+                                JOptionPane.showMessageDialog(null, "Por favor digite um número válido!");
+                                escolhaMenu = -1;
                             }
-                        } catch (NumberFormatException e) {
-                            JOptionPane.showMessageDialog(null, "Por favor digite um número válido!");
-                        }
+                        } while (escolhaMenu != 0);
 
 
                         // Abre Ocorrência
                         
                         
-//
+
 //                        // Criando o prontuário do paciente
 //                        Prontuario prontuario = new Prontuario(null, new ArrayList<>(), "Prontuário criado no cadastro.");
 //
