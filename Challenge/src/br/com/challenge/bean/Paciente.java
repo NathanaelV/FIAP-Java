@@ -1,6 +1,8 @@
 package br.com.challenge.bean;
 
 import javax.swing.*;
+import java.time.LocalDate;
+import java.util.function.Consumer;
 
 public class Paciente extends Pessoa {
     private int numeroCadastro;
@@ -54,11 +56,19 @@ public class Paciente extends Pessoa {
         JOptionPane.showMessageDialog(null, mensagem);
     }
 
-//    public void novaConsulta(LocalDate dataHora, Tratamento tratamento) {
-//        System.out.println("Nova consulta agendada para " + this.getNome() + " em " + dataHora + " para tratamento: " + tratamento.getNome());
-//        // In a real application, this would create a Consulta object.
-//    }
-//
+    public void marcarConsulta(LocalDate dataHora, Tratamento tratamento, String localConsulta) {
+        Consulta consulta = new Consulta(dataHora, this, localConsulta, tratamento);
+
+        String mensagem = String.format(
+                "Consulta marcada para o %s:\n%s - %s\n    %s ",
+                consulta.getPaciente().getNome(),
+                consulta.getDataHora(),
+                consulta.getLocal(),
+                consulta.getTratamento().getNome()
+        );
+        JOptionPane.showMessageDialog(null, mensagem);
+    }
+
 //    public void reagendamentoConsulta(Consulta consulta, LocalDateTime novaData) {
 //        System.out.println("Reagendamento da consulta " + consulta.getCodigo() + " para " + novaData);
 //        // In a real application, this would update the Consulta object.

@@ -18,13 +18,16 @@ public class Main {
         RedeCredenciada redeCredenciada;
         Acompanhante acompanhante;
         Contato contatoAcompanhante;
-        String menuOpcoes, nomePaciente, aux, documento, dataStr, telefone, email, logradouro, numero, complemento, bairro, cidade,
-                estado, cep, nomeRede, codigoRede, tipoDePlano, nomeAcompanhante, assuntoOcorrencia, textoOcorrencia;
+        String menuOpcoes, nomePaciente, aux, documento, dataStr, telefone, email, logradouro, numero, complemento,
+                bairro, cidade, estado, cep, nomeRede, codigoRede, tipoDePlano, nomeAcompanhante, assuntoOcorrencia,
+                textoOcorrencia, localConsulta;
         int escolha, numeroCadastro, opcaoAcompanhante, escolhaMenu;
         boolean telOuEmail;
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate dataNascimento;
+        LocalDate dataNascimento, dataHora;
 
+        // Valores pré-definidos
+        Tratamento tratamento = new Tratamento("A303", "Fisioterapia");
 
         do {
             try {
@@ -292,7 +295,27 @@ public class Main {
                                         break;
                                     case 2:
                                         // Marcar Consulta
-                                        
+                                        do {
+//                                            localConsulta = JOptionPane.showInputDialog("Consulta será PRESENCIAL ou ONLINE?");
+                                            localConsulta = "ONLINE";
+                                        } while (localConsulta.isEmpty());
+
+                                        // Data da consulta
+                                        do {
+//                                            dataStr = JOptionPane.showInputDialog("Data da consulta (DD/MM/YYYY) (Obrigatório)");
+                                            dataStr = "05/04/2030";
+                                            try {
+                                                dataHora = LocalDate.parse(dataStr, dtf);
+                                                // Data deve ser futura
+                                                if (dataHora.isAfter(LocalDate.now())) {
+                                                    paciente.marcarConsulta(dataHora, tratamento, localConsulta);
+                                                } else {
+                                                    throw new Exception("Data deve ser futura");
+                                                }
+                                            } catch (Exception e) {
+                                                JOptionPane.showMessageDialog(null, "Erro: Formato de data inválido. Use DD/MM/YYYY. \n" + e.getMessage());
+                                            }
+                                        } while (paciente.getDataNascimento() == null);
 
                                         break;
                                     case 3:
