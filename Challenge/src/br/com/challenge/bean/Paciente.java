@@ -6,8 +6,8 @@ import java.util.List;
 
 public class Paciente extends Pessoa {
     private int numeroCadastro;
-//    private RedeCredenciada redeCredenciada;
-//    private Acompanhante acompanhante;
+    private RedeCredenciada redeCredenciada;
+    private Acompanhante acompanhante;
 
     public Paciente() {
     }
@@ -27,21 +27,21 @@ public class Paciente extends Pessoa {
         this.numeroCadastro = numeroCadastro;
     }
 
-//    public RedeCredenciada getRedeCredenciada() {
-//        return redeCredenciada;
-//    }
-//
-//    public void setRedeCredenciada(RedeCredenciada redeCredenciada) {
-//        this.redeCredenciada = redeCredenciada;
-//    }
-//
-//    public Acompanhante getAcompanhante() {
-//        return acompanhante;
-//    }
-//
-//    public void setAcompanhante(Acompanhante acompanhante) {
-//        this.acompanhante = acompanhante;
-//    }
+    public RedeCredenciada getRedeCredenciada() {
+        return redeCredenciada;
+    }
+
+    public void setRedeCredenciada(RedeCredenciada redeCredenciada) {
+        this.redeCredenciada = redeCredenciada;
+    }
+
+    public Acompanhante getAcompanhante() {
+        return acompanhante;
+    }
+
+    public void setAcompanhante(Acompanhante acompanhante) {
+        this.acompanhante = acompanhante;
+    }
 
 
 //    public void abreOcorrencia(String assunto, String texto) {
