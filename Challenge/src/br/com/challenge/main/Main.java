@@ -2,6 +2,7 @@ package br.com.challenge.main;
 
 import br.com.challenge.bean.*;
 
+import javax.swing.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,87 +15,108 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Paciente paciente = new Paciente();
-        Scanner scanner;
-        String nomePaciente;
-        int escolha;
-        boolean dataValida = false;
+        String nomePaciente, aux, documento, dataStr, telefone, email, logradouro, numero, complemento, bairro, cidade,
+                estado, cep;
+        int escolha, numeroCadastro, codigoCRM;
+        boolean telOuEmail;
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate dataNascimento;
 
 
         do {
-            scanner = new Scanner(System.in);
-            System.out.println("\n--- Bem-vindo ao Sistema VitalLink ---");
-            System.out.println("Escolha seu perfil:\n(1) Paciente\n(2) Médico\n(0) Sair\n\nSua opção: ");
-
             try {
-                escolha = 1; // scanner.nextInt();
-//                scanner.nextLine(); // Consumir a nova linha
+//                aux = JOptionPane.showInputDialog("--- Bem-vindo ao Sistema VitalLink Tecnologia! ---\n\nEscolha seu perfil:\n(1) Paciente\n(2) Médico\n(0) Sair\n\nSua opção: ");
+//                escolha = Integer.parseInt(aux);
+                escolha = 1;
 
                 switch (escolha) {
                     case 1:
-                        System.out.println("\n--- Menu do Paciente ---");
-                        System.out.println("Vamos cadastrar suas informações.");
-
-                        System.out.print("Nome do Paciente: ");
-                        nomePaciente = "Raph"; // scanner.nextLine();
+                        // Paciente
+                        do {
+//                            nomePaciente = JOptionPane.showInputDialog("\n--- Menu do Paciente ---\nVamos cadastrar suas informações.\n\nNome do Paciente (Obrigatório) ");
+                            nomePaciente = "Raph";
+                            paciente.setNome(nomePaciente);
+                        } while (paciente.getNome().isEmpty());
 
                         do {
-                            System.out.print("Data de Nascimento (DD/MM/YYYY): ");
-                            String dataStr = scanner.nextLine();
+//                            dataStr = JOptionPane.showInputDialog("Data de Nascimento (DD/MM/YYYY) (Obrigatório")");
+                            dataStr = "05/04/2020";
                             try {
                                 dataNascimento = LocalDate.parse(dataStr, dtf);
                                 paciente.setDataNascimento(dataNascimento);
                                 System.out.println(dataNascimento);
-                                dataValida = true;
                             } catch (DateTimeParseException e) {
-                                dataValida = false;
                                 System.out.println("Erro: Formato de data inválido. Use DD/MM/YYYY.");
                             }
                         } while (paciente.getDataNascimento() == null);
 
+                        do {
+//                            documento = JOptionPane.showInputDialog("Documento (CPF) (Obrigatório - somente números)");
+                            documento = "12312312344";
+                            paciente.setDocumento(documento);
+                        } while (paciente.getDocumento().isEmpty());
 
-                        System.out.print("Documento (CPF): ");
-                        String documento = scanner.nextLine();
+                        // Contato
+                        paciente.setContato(new Contato());
 
-//                        // Criando Endereço
-//                        System.out.println("--- Endereço ---");
-//                        System.out.print("Logradouro: ");
-//                        String logradouro = scanner.nextLine();
-//                        System.out.print("Número: ");
-//                        String numero = scanner.nextLine();
-//                        System.out.print("Complemento (opcional): ");
-//                        String complemento = scanner.nextLine();
-//                        System.out.print("Bairro: ");
-//                        String bairro = scanner.nextLine();
-//                        System.out.print("Cidade: ");
-//                        String cidade = scanner.nextLine();
-//                        System.out.print("Estado: ");
-//                        String estado = scanner.nextLine();
-//                        int cep = 0;
-//                        boolean cepValido = false;
-//                        while (!cepValido) {
-//                            System.out.print("CEP (apenas números): ");
-//                            try {
-//                                cep = scanner.nextInt();
-//                                scanner.nextLine();
-//                                cepValido = true;
-//                            } catch (InputMismatchException e) {
-//                                System.out.println("Erro: CEP inválido. Digite apenas números.");
-//                                scanner.nextLine();
-//                            }
-//                        }
-//                        Endereco endereco = new Endereco(logradouro, numero, complemento, bairro, cidade, estado, cep);
-//
-//                        // Criando Contato
-//                        System.out.println("--- Contato ---");
-//                        System.out.print("Telefone: ");
-//                        String telefone = scanner.nextLine();
-//                        System.out.print("Email: ");
-//                        String email = scanner.nextLine();
-//                        Contato contato = new Contato(telefone, email);
-//
-//                        // Informações específicas do Paciente
+                        do {
+//                            telefone = JOptionPane.showInputDialog("Número para contato");
+                            telefone = "123456789";
+                            paciente.getContato().setTelefone(telefone);
+
+//                            email = JOptionPane.showInputDialog("Email para contato");
+                            email = "meu@email.com";
+                            paciente.getContato().setEmail(email);
+
+                            telOuEmail = paciente.getContato().getTelefone().isEmpty() && paciente.getContato().getEmail().isEmpty();
+                            System.out.println(telOuEmail);
+                            if (telOuEmail) {
+                                JOptionPane.showMessageDialog(null, "Digite pelo menos uma informação para contato");
+                            }
+                        } while (telOuEmail);
+
+
+                        // Endereço
+                        paciente.setEndereco(new Endereco());
+                        do {
+//                            logradouro = JOptionPane.showInputDialog("Cadastrar endereço do usuário\n\nLogradouro (Obrigatório)");
+                            logradouro = "Rua Teste";
+                            paciente.getEndereco().setLogradouro(logradouro);
+                        } while (paciente.getEndereco().getLogradouro().isEmpty());
+
+                        do {
+//                            numero = JOptionPane.showInputDialog("Número (Obrigatório)");
+                            numero = "123";
+                            paciente.getEndereco().setNumero(numero);
+                        } while (paciente.getEndereco().getNumero().isEmpty());
+
+                        complemento = JOptionPane.showInputDialog("Complemento");
+                        paciente.getEndereco().setComplemento(complemento);
+
+                        do {
+                            bairro = JOptionPane.showInputDialog("Bairro (Obrigatório)");
+                            paciente.getEndereco().setBairro(bairro);
+                        } while (paciente.getEndereco().getBairro().isEmpty());
+
+                        do {
+                            cidade = JOptionPane.showInputDialog("Cidade (Obrigatório)");
+                            paciente.getEndereco().setCidade(cidade);
+                        } while (paciente.getEndereco().getCidade().isEmpty());
+
+                        do {
+                            estado = JOptionPane.showInputDialog("Estado (Obrigatório)");
+                            paciente.getEndereco().setEstado(estado);
+                        } while (paciente.getEndereco().getEstado().isEmpty());
+
+                        do {
+                            cep = JOptionPane.showInputDialog("CEP (Obrigatório - somente números)");
+                            paciente.getEndereco().setCep(cep);
+                        } while (paciente.getEndereco().getCep().isEmpty());
+
+
+                        // Informações específicas do Paciente
+
+
 //                        int numeroCadastro = 0;
 //                        boolean numCadastroValido = false;
 //                        while (!numCadastroValido) {
@@ -244,9 +266,12 @@ public class Main {
                     default:
                         System.out.println("Opção inválida. Por favor, escolha novamente.");
                 }
-            } catch (InputMismatchException e) {
-                System.out.println("Erro: Entrada inválida. Por favor, digite um número.");
-                scanner.nextLine(); // Consumir a entrada inválida
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro: Entrada inválida. Por favor, digite um número.");
+                System.out.println(e);
+                System.out.println("\n");
+                System.out.println(e.getMessage());
+//                scanner.nextLine(); // Consumir a entrada inválida
                 // Para garantir que o loop continue
                 escolha = -1;
             }

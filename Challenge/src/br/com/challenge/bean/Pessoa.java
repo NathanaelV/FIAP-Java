@@ -33,9 +33,7 @@ public class Pessoa {
     }
 
     public void setDataNascimento(LocalDate dataNascimento) {
-        // Adicionar o Less one day
         LocalDate inicio = LocalDate.of(1900, 1, 1).minusDays(1);
-        // Adicionar o more one day
         LocalDate fim = LocalDate.now().plusDays(1);
 
         try {
