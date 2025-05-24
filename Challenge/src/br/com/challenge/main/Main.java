@@ -15,16 +15,20 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        // Classes locais
         Paciente paciente = new Paciente();
         RedeCredenciada redeCredenciada;
         Acompanhante acompanhante;
         Contato contatoAcompanhante;
         Consulta consulta;
+
+        // Tipos primitivos
         String menuOpcoes, nomePaciente, aux, documento, dataStr, telefone, email, logradouro, numero, complemento,
                 bairro, cidade, estado, cep, nomeRede, codigoRede, tipoDePlano, nomeAcompanhante, assuntoOcorrencia,
                 textoOcorrencia, localConsulta, parentesco;
         int escolha, numeroCadastro, opcaoAcompanhante, escolhaMenu;
         boolean telOuEmail, consultaRemarcada = false;
+
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate dataNascimento, dataHora;
 
@@ -35,17 +39,20 @@ public class Main {
             try {
                 menuOpcoes = "--- Bem-vindo ao Sistema VitalLink Tecnologia! ---\n\n" +
                         "Escolha seu perfil:\n" +
-                        "(1) Paciente\n" +
+                        "(1) Criar Paciente\n" +
+                        "(2) Logar Paciente\n" +
                         "(2) Médico\n" +
                         "(0) Sair\n\n" +
                         "Digite sua opção: ";
-//                aux = JOptionPane.showInputDialog(menuOpcoes);
-//                escolha = Integer.parseInt(aux);
-                escolha = 1;
+                aux = JOptionPane.showInputDialog(menuOpcoes);
+                escolha = Integer.parseInt(aux);
+//                escolha = 2;
 
                 switch (escolha) {
                     case 1:
-                        // Paciente
+                        // Cadastrar Paciente
+//                        paciente = new Paciente();
+
                         do {
 //                            nomePaciente = JOptionPane.showInputDialog("\n--- Menu do Paciente ---\nVamos cadastrar suas informações.\n\nNome do Paciente (Obrigatório)");
                             nomePaciente = "Raph";
@@ -280,14 +287,15 @@ public class Main {
                         // Menu de opções
                         do {
                             try {
-                                menuOpcoes = "Escolha uma opção:\n\n" +
+                                menuOpcoes = "Bem vindo(a), " + paciente.getNome() + "!\n\n" +
+                                        "Escolha uma opção:\n\n" +
                                         "(1) Abrir Ocorrência\n" +
                                         "(2) Marcar Consulta\n" +
                                         "(3) Remarcar Consulta\n" +
                                         "(0) Sair\n\n" +
                                         "Digite sua opção: ";
 
-                                aux = JOptionPane.showInputDialog(null, menuOpcoes);
+                                aux = JOptionPane.showInputDialog(menuOpcoes);
                                 escolhaMenu = Integer.parseInt(aux);
 
                                 switch (escolhaMenu) {
@@ -362,121 +370,108 @@ public class Main {
                             }
                         } while (escolhaMenu != 0);
 
+                        break;
 
+                    // Logar Paciente:
+                    case 2:
+                        // Verifica se o paciente existe
+                        if (paciente.getDocumento() == null) {
+                            JOptionPane.showMessageDialog(null, "Paciente não cadastrado. Favor cadastrar o paciente.");
+                        } else {
+                            do {
+                                try {
+                                    menuOpcoes = "Bem vindo(a), " + paciente.getNome() + "!\n\n" +
+                                            "Escolha uma opção:\n\n" +
+                                            "(1) Abrir Ocorrência\n" +
+                                            "(2) Marcar Consulta\n" +
+                                            "(3) Remarcar Consulta\n" +
+                                            "(0) Sair\n\n" +
+                                            "Digite sua opção: ";
 
-                        // Abre Ocorrência
-                        
-                        
+                                    aux = JOptionPane.showInputDialog(menuOpcoes);
+                                    escolhaMenu = Integer.parseInt(aux);
 
-//                        // Criando o prontuário do paciente
-//                        Prontuario prontuario = new Prontuario(null, new ArrayList<>(), "Prontuário criado no cadastro.");
-//
-//                        Paciente paciente = new Paciente(nomePaciente, dataNascimento, documento, endereco, contato, numeroCadastro, redeCredenciada, acompanhante);
-//                        paciente.setProntuario(prontuario); // Associar o prontuário ao paciente
-//
-//                        System.out.println("Paciente " + paciente.getNome() + " cadastrado com sucesso!");
-//                        return paciente;
-//
-//
-//                        if (paciente == null) {
-//                            System.out.println("Cadastro de paciente cancelado ou inválido.");
-//                            return;
-//                        }
-//
-//                        int opcaoPaciente;
-//                        do {
-//                            System.out.println("\nPaciente: " + paciente.getNome());
-//                            System.out.println("1. Abrir uma Ocorrência");
-//                            System.out.println("2. Agendar Nova Consulta");
-//                            System.out.println("3. Reagendar Consulta (simulado)");
-//                            System.out.println("4. Visualizar meu Prontuário (simulado)");
-//                            System.out.println("0. Voltar ao Menu Principal");
-//                            System.out.print("Sua opção: ");
-//
-//                            try {
-//                                opcaoPaciente = scanner.nextInt();
-//                                scanner.nextLine(); // Consumir a nova linha
-//
-//                                switch (opcaoPaciente) {
-//                                    case 1:
-//                                        System.out.print("Assunto da ocorrência: ");
-//                                        String assuntoOcorrencia = scanner.nextLine();
-//                                        System.out.print("Texto da ocorrência: ");
-//                                        String textoOcorrencia = scanner.nextLine();
-//                                        paciente.abreOcorrencia(assuntoOcorrencia, textoOcorrencia);
-//                                        System.out.println("Ocorrência registrada com sucesso!");
-//                                        break;
-//                                    case 2:
-//                                        // Simulação de agendamento
-//                                        System.out.println("--- Agendar Nova Consulta ---");
-//                                        System.out.print("Digite a data e hora da consulta (DD/MM/YYYY HH:MM): ");
-//                                        String dataHoraStr = scanner.nextLine();
-//                                        LocalDateTime dataHoraConsulta = null;
-//                                        try {
-//                                            dataHoraConsulta = LocalDateTime.parse(dataHoraStr, java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
-//                                            // Tratamento é simplificado aqui
-//                                            Tratamento tratamento = new Tratamento(1, "Consulta Geral");
-//                                            paciente.novaConsulta(LocalDate.from(dataHoraConsulta), tratamento); // O método espera LocalDate, ajustando
-//                                            System.out.println("Consulta agendada com sucesso para " + dataHoraConsulta.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + "!");
-//                                        } catch (DateTimeParseException e) {
-//                                            System.out.println("Erro: Formato de data e hora inválido. Use DD/MM/YYYY HH:MM.");
-//                                        }
-//                                        break;
-//                                    case 3:
-//                                        // Simulação de reagendamento
-//                                        System.out.println("--- Reagendar Consulta ---");
-//                                        System.out.println("Essa funcionalidade é uma simulação. Para reagendar, você precisaria selecionar uma consulta existente.");
-//                                        System.out.print("Digite a nova data e hora para a consulta (DD/MM/YYYY HH:MM): ");
-//                                        String novaDataHoraStr = scanner.nextLine();
-//                                        LocalDateTime novaDataHoraConsulta = null;
-//                                        try {
-//                                            novaDataHoraConsulta = LocalDateTime.parse(novaDataHoraStr, java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
-//                                            // Criando uma consulta dummy para o reagendamento simulado
-//                                            Consulta consultaSimulada = new Consulta();
-//                                            consultaSimulada.setCodigo(999);
-//                                            paciente.reagendamentoConsulta(consultaSimulada, novaDataHoraConsulta);
-//                                            System.out.println("Consulta reagendada simuladamente para " + novaDataHoraConsulta.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + "!");
-//                                        } catch (DateTimeParseException e) {
-//                                            System.out.println("Erro: Formato de data e hora inválido. Use DD/MM/YYYY HH:MM.");
-//                                        }
-//                                        break;
-//                                    case 4:
-//                                        System.out.println("--- Seu Prontuário ---");
-//                                        if (paciente.getProntuario() != null) {
-//                                            System.out.println("Anotações: " + paciente.getProntuario().getAnotacoes());
-//                                            if (!paciente.getProntuario().getExames().isEmpty()) {
-//                                                System.out.println("Exames:");
-//                                                for (Exame exame : paciente.getProntuario().getExames()) {
-//                                                    System.out.println("  - Código: " + exame.getCodigo() + ", Nome: " + exame.getNome() + ", Observações: " + exame.getObservacoes());
-//                                                }
-//                                            } else {
-//                                                System.out.println("Nenhum exame registrado.");
-//                                            }
-//                                        } else {
-//                                            System.out.println("Seu prontuário ainda não foi criado ou está vazio.");
-//                                        }
-//                                        break;
-//                                    case 0:
-//                                        System.out.println("Voltando ao Menu Principal...");
-//                                        break;
-//                                    default:
-//                                        System.out.println("Opção inválida. Por favor, escolha novamente.");
-//                                }
-//                            } catch (InputMismatchException e) {
-//                                System.out.println("Erro: Entrada inválida. Por favor, digite um número.");
-//                                scanner.nextLine(); // Consumir a entrada inválida
-//                                opcaoPaciente = -1;
-//                            }
-//                        } while (opcaoPaciente != 0);
+                                    switch (escolhaMenu) {
+                                        case 1:
+                                            // Abrir ocorrência
+                                            do {
+//                                            assuntoOcorrencia = JOptionPane.showInputDialog("Tema da ocorrência");
+                                                assuntoOcorrencia = "Consulta online";
+                                            } while (assuntoOcorrencia.isEmpty());
+
+                                            do {
+//                                            textoOcorrencia = JOptionPane.showInputDialog("Qual a ocorrência:");
+                                                textoOcorrencia = "Não consigo encontrar a tela para conectar.";
+                                            } while (textoOcorrencia.isEmpty());
+
+                                            paciente.abreOcorrencia(assuntoOcorrencia, textoOcorrencia);
+                                            break;
+                                        case 2:
+                                            // Marcar Consulta
+                                            consulta = new Consulta();
+                                            do {
+//                                            localConsulta = JOptionPane.showInputDialog("Consulta será PRESENCIAL ou ONLINE?");
+                                                localConsulta = "ONLINE";
+                                                consulta.setLocal(localConsulta);
+                                            } while (consulta.getLocal().isEmpty());
+
+                                            // Data da consulta
+                                            do {
+//                                            dataStr = JOptionPane.showInputDialog("Data da consulta (DD/MM/YYYY) (Obrigatório)");
+                                                dataStr = "05/04/2030";
+
+                                                try {
+                                                    dataHora = LocalDate.parse(dataStr, dtf);
+                                                    consulta.setDataHora(dataHora);
+                                                } catch (Exception e) {
+                                                    JOptionPane.showMessageDialog(null, "Erro: Formato de data inválido. Use DD/MM/YYYY. \n" + e.getMessage());
+                                                }
+                                            } while (consulta.getDataHora() ==  null);
+
+                                            consulta.setTratamento(tratamento);
+                                            paciente.setConsulta(consulta);
+
+                                            break;
+                                        case 3:
+                                            // Remarcar Consulta
+
+                                            if (paciente.getConsulta() == null) {
+                                                JOptionPane.showMessageDialog(null, "Paciente não possui consultas para serem reagendadas.");
+                                            } else {
+                                                do {
+//                                                dataStr = JOptionPane.showInputDialog("Nova data da consulta (DD/MM/YYYY) (Obrigatório)");
+                                                    dataStr = "25/11/2030";
+
+                                                    try {
+                                                        dataHora = LocalDate.parse(dataStr, dtf);
+                                                        consultaRemarcada = paciente.getConsulta().remarcar(dataHora);
+                                                    } catch (Exception e) {
+                                                        JOptionPane.showMessageDialog(null, "Erro: Formato de data inválido. Use DD/MM/YYYY. \n" + e.getMessage());
+                                                    }
+                                                } while (!consultaRemarcada);
+                                            }
+
+                                            break;
+                                        case 0:
+                                            break;
+                                        default:
+                                            JOptionPane.showMessageDialog(null, "Opção inválida!");
+                                    }
+                                } catch (Exception e) {
+                                    JOptionPane.showMessageDialog(null, "Por favor digite um número válido!\n" + e.getMessage());
+                                    escolhaMenu = -1;
+                                }
+                            } while (escolhaMenu != 0);
+                        }
                         break;
 
                     // MÉDICO:
-                    case 2:
+                    case 3:
 //                        menuMedico(scanner);
                         System.out.println("médico 2 foi cadastrado com sucesso!");
                         break;
                     case 0:
-                        System.out.println("Obrigado por usar o Sistema VitalLink Tecnologia!");
+                        JOptionPane.showMessageDialog(null, "Obrigado por usar o Sistema VitalLink Tecnologia!");
                         break;
                     default:
                         System.out.println("Opção inválida. Por favor, escolha novamente.");
