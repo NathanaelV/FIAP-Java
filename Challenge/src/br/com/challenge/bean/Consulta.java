@@ -1,6 +1,8 @@
 package br.com.challenge.bean;
 
+import javax.swing.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Consulta {
     private LocalDate dataHora;
@@ -24,7 +26,15 @@ public class Consulta {
     }
 
     public void setDataHora(LocalDate dataHora) {
-        this.dataHora = dataHora;
+        try {
+            if (dataHora.isAfter(LocalDate.now())) {
+                this.dataHora = dataHora;
+            } else {
+                throw new Exception("A data deve ser futura!");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }
 
     public Paciente getPaciente() {
@@ -65,5 +75,33 @@ public class Consulta {
 
     public void setTratamento(Tratamento tratamento) {
         this.tratamento = tratamento;
+    }
+
+    public boolean remarcar(LocalDate novaData) {
+        try {
+            if (novaData.isAfter(LocalDate.now())) {
+                setDataHora(novaData);
+
+                String mensagem = String.format(
+                        "Consulta remarcada para o %s:\n%s - %s\n    %s ",
+                        getPaciente().getNome(),
+                        dataFormatada(),
+                        getLocal(),
+                        getTratamento().getNome()
+                );
+                JOptionPane.showMessageDialog(null, mensagem);
+
+                return true;
+            } else {
+                throw new Exception("A data deve ser futura!");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        return false;
+    }
+
+    public String dataFormatada() {
+        return getDataHora().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 }

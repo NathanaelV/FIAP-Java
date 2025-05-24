@@ -2,12 +2,14 @@ package br.com.challenge.bean;
 
 import javax.swing.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.function.Consumer;
 
 public class Paciente extends Pessoa {
     private int numeroCadastro;
     private RedeCredenciada redeCredenciada;
     private Acompanhante acompanhante;
+    private Consulta consulta;
 
     public Paciente() {
     }
@@ -43,6 +45,23 @@ public class Paciente extends Pessoa {
         this.acompanhante = acompanhante;
     }
 
+    public Consulta getConsulta() {
+        return consulta;
+    }
+
+    public void setConsulta(Consulta consulta) {
+        consulta.setPaciente(this);
+        this.consulta = consulta;
+
+        String mensagem = String.format(
+                "Consulta marcada para o %s:\n%s - %s\n    %s ",
+                consulta.getPaciente().getNome(),
+                consulta.dataFormatada(),
+                consulta.getLocal(),
+                consulta.getTratamento().getNome()
+        );
+        JOptionPane.showMessageDialog(null, mensagem);
+    }
 
     public void abreOcorrencia(String assunto, String texto) {
         Ocorrencia ocorrencia = new Ocorrencia(this, assunto, texto);
@@ -55,22 +74,4 @@ public class Paciente extends Pessoa {
         );
         JOptionPane.showMessageDialog(null, mensagem);
     }
-
-    public void marcarConsulta(LocalDate dataHora, Tratamento tratamento, String localConsulta) {
-        Consulta consulta = new Consulta(dataHora, this, localConsulta, tratamento);
-
-        String mensagem = String.format(
-                "Consulta marcada para o %s:\n%s - %s\n    %s ",
-                consulta.getPaciente().getNome(),
-                consulta.getDataHora(),
-                consulta.getLocal(),
-                consulta.getTratamento().getNome()
-        );
-        JOptionPane.showMessageDialog(null, mensagem);
-    }
-
-//    public void reagendamentoConsulta(Consulta consulta, LocalDateTime novaData) {
-//        System.out.println("Reagendamento da consulta " + consulta.getCodigo() + " para " + novaData);
-//        // In a real application, this would update the Consulta object.
-//    }
 }

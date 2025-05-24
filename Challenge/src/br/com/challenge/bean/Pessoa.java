@@ -1,6 +1,7 @@
 package br.com.challenge.bean;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Pessoa {
     private String nome;
@@ -69,5 +70,14 @@ public class Pessoa {
 
     public void setContato(Contato contato) {
         this.contato = contato;
+    }
+
+    public int idade() {
+        LocalDate dataAtual = LocalDate.now();
+        return dataAtual.getYear() - this.getDataNascimento().getYear();
+    }
+
+    public String dataFormatada() {
+        return getDataNascimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 }

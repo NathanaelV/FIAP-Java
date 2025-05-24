@@ -3,6 +3,7 @@ package br.com.challenge.main;
 import br.com.challenge.bean.*;
 
 import javax.swing.*;
+import java.text.CompactNumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -18,11 +19,12 @@ public class Main {
         RedeCredenciada redeCredenciada;
         Acompanhante acompanhante;
         Contato contatoAcompanhante;
+        Consulta consulta;
         String menuOpcoes, nomePaciente, aux, documento, dataStr, telefone, email, logradouro, numero, complemento,
                 bairro, cidade, estado, cep, nomeRede, codigoRede, tipoDePlano, nomeAcompanhante, assuntoOcorrencia,
-                textoOcorrencia, localConsulta;
+                textoOcorrencia, localConsulta, parentesco;
         int escolha, numeroCadastro, opcaoAcompanhante, escolhaMenu;
-        boolean telOuEmail;
+        boolean telOuEmail, consultaRemarcada = false;
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate dataNascimento, dataHora;
 
@@ -220,6 +222,14 @@ public class Main {
                                 }
                             } while (telOuEmail);
 
+                            // Grau parentesco
+                            do {
+                                parentesco = JOptionPane.showInputDialog("Qual o grau parentesco?");
+//                                parentesco = "Irmão";
+                                acompanhante.setGrauParentesco(parentesco);
+                            } while (parentesco.isEmpty());
+
+
                             acompanhante.setContato(contatoAcompanhante);
                             paciente.setAcompanhante(acompanhante);
                         }
@@ -227,13 +237,14 @@ public class Main {
                         // Display patient information
                         String patientInfo = "=== Patient Information ===\n" +
                                 "Name: " + paciente.getNome() + "\n" +
-                                "Birth Date: " + paciente.getDataNascimento() + "\n" +
+                                "Birth Date: " + paciente.dataFormatada() + "\n" +
+                                "Idade: " + paciente.idade() + "\n" +
                                 "Document: " + paciente.getDocumento() + "\n" +
                                 "Registration Number: " + paciente.getNumeroCadastro() + "\n\n" +
                                 "Contact Information:\n" +
                                 "Phone: " + paciente.getContato().getTelefone() + "\n" +
                                 "Email: " + paciente.getContato().getEmail();
-//                        JOptionPane.showMessageDialog(null, patientInfo);
+                        JOptionPane.showMessageDialog(null, patientInfo);
 
                         String addressInfo = "=== Address Information ===\n" +
                                 "Street: " + paciente.getEndereco().getLogradouro() + "\n" +
@@ -254,7 +265,8 @@ public class Main {
                         if (paciente.getAcompanhante() != null) {
                             String accompanistInfo = "=== Accompanying Person ===\n" +
                                     "Name: " + paciente.getAcompanhante().getNome() + "\n" +
-                                    "Birth Date: " + paciente.getAcompanhante().getDataNascimento() + "\n" +
+                                    "Birth Date: " + paciente.getAcompanhante().dataFormatada() + "\n" +
+                                    "Idade: " + paciente.getAcompanhante().idade() + "\n" +
                                     "Document: " + paciente.getAcompanhante().getDocumento() + "\n\n" +
                                     "Contact Information:\n" +
                                     "Phone: " + paciente.getAcompanhante().getContato().getTelefone() + "\n" +
@@ -263,7 +275,7 @@ public class Main {
                         }
 
                         
-                        // Métodos de Paciente
+                        // Menu de Paciente
                         
                         // Menu de opções
                         do {
@@ -295,31 +307,49 @@ public class Main {
                                         break;
                                     case 2:
                                         // Marcar Consulta
+                                        consulta = new Consulta();
                                         do {
 //                                            localConsulta = JOptionPane.showInputDialog("Consulta será PRESENCIAL ou ONLINE?");
                                             localConsulta = "ONLINE";
-                                        } while (localConsulta.isEmpty());
+                                            consulta.setLocal(localConsulta);
+                                        } while (consulta.getLocal().isEmpty());
 
                                         // Data da consulta
                                         do {
 //                                            dataStr = JOptionPane.showInputDialog("Data da consulta (DD/MM/YYYY) (Obrigatório)");
                                             dataStr = "05/04/2030";
+
                                             try {
                                                 dataHora = LocalDate.parse(dataStr, dtf);
-                                                // Data deve ser futura
-                                                if (dataHora.isAfter(LocalDate.now())) {
-                                                    paciente.marcarConsulta(dataHora, tratamento, localConsulta);
-                                                } else {
-                                                    throw new Exception("Data deve ser futura");
-                                                }
+                                                consulta.setDataHora(dataHora);
                                             } catch (Exception e) {
                                                 JOptionPane.showMessageDialog(null, "Erro: Formato de data inválido. Use DD/MM/YYYY. \n" + e.getMessage());
                                             }
-                                        } while (paciente.getDataNascimento() == null);
+                                        } while (consulta.getDataHora() ==  null);
+
+                                        consulta.setTratamento(tratamento);
+                                        paciente.setConsulta(consulta);
 
                                         break;
                                     case 3:
                                         // Remarcar Consulta
+
+                                        if (paciente.getConsulta() == null) {
+                                            JOptionPane.showMessageDialog(null, "Paciente não possui consultas para serem reagendadas.");
+                                        } else {
+                                            do {
+//                                                dataStr = JOptionPane.showInputDialog("Nova data da consulta (DD/MM/YYYY) (Obrigatório)");
+                                                dataStr = "25/11/2030";
+
+                                                try {
+                                                    dataHora = LocalDate.parse(dataStr, dtf);
+                                                    consultaRemarcada = paciente.getConsulta().remarcar(dataHora);
+                                                } catch (Exception e) {
+                                                    JOptionPane.showMessageDialog(null, "Erro: Formato de data inválido. Use DD/MM/YYYY. \n" + e.getMessage());
+                                                }
+                                            } while (!consultaRemarcada);
+                                        }
+
                                         break;
                                     case 0:
                                         break;
@@ -327,10 +357,11 @@ public class Main {
                                         JOptionPane.showMessageDialog(null, "Opção inválida!");
                                 }
                             } catch (Exception e) {
-                                JOptionPane.showMessageDialog(null, "Por favor digite um número válido!");
+                                JOptionPane.showMessageDialog(null, "Por favor digite um número válido!\n" + e.getMessage());
                                 escolhaMenu = -1;
                             }
                         } while (escolhaMenu != 0);
+
 
 
                         // Abre Ocorrência
