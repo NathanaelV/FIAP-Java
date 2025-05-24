@@ -236,42 +236,42 @@ public class Main {
 
                         // Display patient information
                         String patientInfo = "=== Patient Information ===\n" +
-                                "Name: " + paciente.getNome() + "\n" +
-                                "Birth Date: " + paciente.dataFormatada() + "\n" +
+                                "Nome: " + paciente.getNome() + "\n" +
+                                "Data de nascimento: " + paciente.dataFormatada() + "\n" +
                                 "Idade: " + paciente.idade() + "\n" +
-                                "Document: " + paciente.getDocumento() + "\n" +
-                                "Registration Number: " + paciente.getNumeroCadastro() + "\n\n" +
-                                "Contact Information:\n" +
-                                "Phone: " + paciente.getContato().getTelefone() + "\n" +
-                                "Email: " + paciente.getContato().getEmail();
+                                "CPF: " + paciente.getDocumento() + "\n" +
+                                "Número de cadastro: " + paciente.getNumeroCadastro() + "\n\n" +
+                                "Informações de contato:\n" +
+                                "  Telefone: " + paciente.getContato().getTelefone() + "\n" +
+                                "  E-mail: " + paciente.getContato().getEmail();
                         JOptionPane.showMessageDialog(null, patientInfo);
 
                         String addressInfo = "=== Address Information ===\n" +
-                                "Street: " + paciente.getEndereco().getLogradouro() + "\n" +
-                                "Number: " + paciente.getEndereco().getNumero() + "\n" +
-                                "Complement: " + paciente.getEndereco().getComplemento() + "\n" +
-                                "District: " + paciente.getEndereco().getBairro() + "\n" +
-                                "City: " + paciente.getEndereco().getCidade() + "\n" +
-                                "State: " + paciente.getEndereco().getEstado() + "\n" +
-                                "ZIP: " + paciente.getEndereco().getCep();
-//                        JOptionPane.showMessageDialog(null, addressInfo);
+                                "Rua: " + paciente.getEndereco().getLogradouro() + "\n" +
+                                "Número: " + paciente.getEndereco().getNumero() + "\n" +
+                                "Complemento: " + paciente.getEndereco().getComplemento() + "\n" +
+                                "Bairro: " + paciente.getEndereco().getBairro() + "\n" +
+                                "Cidade: " + paciente.getEndereco().getCidade() + "\n" +
+                                "Estado: " + paciente.getEndereco().getEstado() + "\n" +
+                                "CEP: " + paciente.getEndereco().getCep();
+                        JOptionPane.showMessageDialog(null, addressInfo);
 
                         String healthcareInfo = "=== Healthcare Network ===\n" +
-                                "Network: " + paciente.getRedeCredenciada().getNome() + "\n" +
-                                "Plan Code: " + paciente.getRedeCredenciada().getCodigoConvenio() + "\n" +
-                                "Plan Type: " + paciente.getRedeCredenciada().getTipoDePlano();
-//                        JOptionPane.showMessageDialog(null, healthcareInfo);
+                                "Rede Credẽnciada: " + paciente.getRedeCredenciada().getNome() + "\n" +
+                                "Códio da Rede: " + paciente.getRedeCredenciada().getCodigoConvenio() + "\n" +
+                                "Tipo do Plano: " + paciente.getRedeCredenciada().getTipoDePlano();
+                        JOptionPane.showMessageDialog(null, healthcareInfo);
 
                         if (paciente.getAcompanhante() != null) {
                             String accompanistInfo = "=== Accompanying Person ===\n" +
-                                    "Name: " + paciente.getAcompanhante().getNome() + "\n" +
-                                    "Birth Date: " + paciente.getAcompanhante().dataFormatada() + "\n" +
+                                    "Nome: " + paciente.getAcompanhante().getNome() + "\n" +
+                                    "Data de nascimento: " + paciente.getAcompanhante().dataFormatada() + "\n" +
                                     "Idade: " + paciente.getAcompanhante().idade() + "\n" +
-                                    "Document: " + paciente.getAcompanhante().getDocumento() + "\n\n" +
-                                    "Contact Information:\n" +
-                                    "Phone: " + paciente.getAcompanhante().getContato().getTelefone() + "\n" +
-                                    "Email: " + paciente.getAcompanhante().getContato().getEmail();
-//                            JOptionPane.showMessageDialog(null, accompanistInfo);
+                                    "CPF: " + paciente.getAcompanhante().getDocumento() + "\n\n" +
+                                    "Informações de contato:\n" +
+                                    "  Telefone: " + paciente.getAcompanhante().getContato().getTelefone() + "\n" +
+                                    "  E-mail: " + paciente.getAcompanhante().getContato().getEmail();
+                            JOptionPane.showMessageDialog(null, accompanistInfo);
                         }
 
                         
