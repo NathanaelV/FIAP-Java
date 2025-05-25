@@ -15,12 +15,13 @@ public class Consulta {
     public Consulta() {}
 
     public Consulta(LocalDate dataHora, Paciente paciente, String local, Tratamento tratamento) {
-        this.dataHora = dataHora;
+        setDataHora(dataHora);
         this.paciente = paciente;
         this.local = local;
         this.tratamento = tratamento;
     }
 
+    // Getters e Setters
     public LocalDate getDataHora() {
         return dataHora;
     }
@@ -77,6 +78,7 @@ public class Consulta {
         this.tratamento = tratamento;
     }
 
+    // Métodos de classe
     public boolean remarcar(LocalDate novaData) {
         try {
             if (novaData.isAfter(LocalDate.now())) {

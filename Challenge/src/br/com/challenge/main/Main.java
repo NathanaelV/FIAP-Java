@@ -21,19 +21,43 @@ public class Main {
         Acompanhante acompanhante;
         Contato contatoAcompanhante;
         Consulta consulta;
+        Medico medico = new Medico();
+        Exame exame;
+        Prontuario prontuario = new Prontuario();
+
+        // Definição de Tratamento
+        Tratamento tratamento = new Tratamento("A303", "Fisioterapia");
+
+        // Definição do médico
+        medico.setCodigoCRM("4253");
+        medico.setNome("Donatello");
+        medico.setEspecialidade("Ortopedista");
+        medico.setDisponibilidadeOnline(true);
+
+        // Definição de Exame
+        exame = new Exame(
+                "Ressonância Magnética",
+                "Inflamação no supraespinhal do ombro esquerdo",
+                LocalDate.now(),
+                paciente
+        );
+
+        // Definições do Prontuário
+        prontuario.setPaciente(paciente);
+        prontuario.setExame(exame);
+        prontuario.setDescriacao("O paciente vem apresentando uma melhora lenta.");
+
 
         // Tipos primitivos
         String menuOpcoes, nomePaciente, aux, documento, dataStr, telefone, email, logradouro, numero, complemento,
                 bairro, cidade, estado, cep, nomeRede, codigoRede, tipoDePlano, nomeAcompanhante, assuntoOcorrencia,
-                textoOcorrencia, localConsulta, parentesco;
+                textoOcorrencia, localConsulta, parentesco, consultaInfo, prontuarioInfo;
         int escolha, numeroCadastro, opcaoAcompanhante, escolhaMenu;
         boolean telOuEmail, consultaRemarcada = false;
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate dataNascimento, dataHora;
 
-        // Valores pré-definidos
-        Tratamento tratamento = new Tratamento("A303", "Fisioterapia");
 
         do {
             try {
@@ -231,8 +255,8 @@ public class Main {
 
                             // Grau parentesco
                             do {
-                                parentesco = JOptionPane.showInputDialog("Qual o grau parentesco?");
-//                                parentesco = "Irmão";
+//                                parentesco = JOptionPane.showInputDialog("Qual o grau parentesco?");
+                                parentesco = "Irmão";
                                 acompanhante.setGrauParentesco(parentesco);
                             } while (parentesco.isEmpty());
 
@@ -292,6 +316,8 @@ public class Main {
                                         "(1) Abrir Ocorrência\n" +
                                         "(2) Marcar Consulta\n" +
                                         "(3) Remarcar Consulta\n" +
+                                        "(4) Mostrar Consultas Marcadas\n" +
+                                        "(5) Prontuário do Paciente\n" +
                                         "(0) Sair\n\n" +
                                         "Digite sua opção: ";
 
@@ -299,8 +325,9 @@ public class Main {
                                 escolhaMenu = Integer.parseInt(aux);
 
                                 switch (escolhaMenu) {
+
+                                    // Abrir ocorrência
                                     case 1:
-                                        // Abrir ocorrência
                                         do {
 //                                            assuntoOcorrencia = JOptionPane.showInputDialog("Tema da ocorrência");
                                             assuntoOcorrencia = "Consulta online";
@@ -313,8 +340,9 @@ public class Main {
 
                                         paciente.abreOcorrencia(assuntoOcorrencia, textoOcorrencia);
                                         break;
+
+                                    // Marcar Consulta
                                     case 2:
-                                        // Marcar Consulta
                                         consulta = new Consulta();
                                         do {
 //                                            localConsulta = JOptionPane.showInputDialog("Consulta será PRESENCIAL ou ONLINE?");
@@ -335,13 +363,16 @@ public class Main {
                                             }
                                         } while (consulta.getDataHora() ==  null);
 
+                                        // Informações definidas pelo Hospital
+                                        consulta.setMedico(medico);
                                         consulta.setTratamento(tratamento);
+                                        consulta.setProntuario(prontuario);
                                         paciente.setConsulta(consulta);
 
                                         break;
-                                    case 3:
-                                        // Remarcar Consulta
 
+                                    // Remarcar Consulta
+                                    case 3:
                                         if (paciente.getConsulta() == null) {
                                             JOptionPane.showMessageDialog(null, "Paciente não possui consultas para serem reagendadas.");
                                         } else {
@@ -359,8 +390,39 @@ public class Main {
                                         }
 
                                         break;
+
+                                    // Mostrar Consultas Marcadas
+                                    case 4:
+                                        if (paciente.getConsulta() == null) {
+                                            JOptionPane.showMessageDialog(null, "Paciente não possui consultas para serem mostradas.");
+                                        } else {
+                                            consultaInfo = "=== Consulta Marcada ===\n" +
+                                                    "Data: " + paciente.getConsulta().dataFormatada() + "\n" +
+                                                    "Local: " + paciente.getConsulta().getLocal() + "\n" +
+                                                    "Tratamento: " + paciente.getConsulta().getTratamento().getNome();
+                                            JOptionPane.showMessageDialog(null, consultaInfo);
+                                        }
+                                        break;
+
+                                    // Prontuário do Paciente
+                                    case 5:
+                                        if (paciente.getProntuario() == null) {
+                                            JOptionPane.showMessageDialog(null, "Paciente não possui prontuário.");
+                                        } else {
+                                            prontuarioInfo = "=== Prontuário do Paciente ===\n" +
+                                                    "Descrição: " + prontuario.getDescriacao() + "\n\n" +
+                                                    "=== Exame ===\n" +
+                                                    "  Nome: " + prontuario.getExame().getNome() + "\n" +
+                                                    "  Data: " + prontuario.getExame().dataFormatada() + "\n" +
+                                                    "  Obs: " + prontuario.getExame().getObservacoes() + "\n";
+                                            JOptionPane.showMessageDialog(null, prontuarioInfo);
+                                        }
+                                        break;
+
+                                    // Sair
                                     case 0:
                                         break;
+
                                     default:
                                         JOptionPane.showMessageDialog(null, "Opção inválida!");
                                 }
@@ -369,7 +431,6 @@ public class Main {
                                 escolhaMenu = -1;
                             }
                         } while (escolhaMenu != 0);
-
                         break;
 
                     // Logar Paciente:
@@ -385,6 +446,8 @@ public class Main {
                                             "(1) Abrir Ocorrência\n" +
                                             "(2) Marcar Consulta\n" +
                                             "(3) Remarcar Consulta\n" +
+                                            "(4) Mostrar Consultas Marcadas\n" +
+                                            "(5) Prontuário do Paciente\n" +
                                             "(0) Sair\n\n" +
                                             "Digite sua opção: ";
 
@@ -392,8 +455,8 @@ public class Main {
                                     escolhaMenu = Integer.parseInt(aux);
 
                                     switch (escolhaMenu) {
+                                        // Abrir ocorrência
                                         case 1:
-                                            // Abrir ocorrência
                                             do {
 //                                            assuntoOcorrencia = JOptionPane.showInputDialog("Tema da ocorrência");
                                                 assuntoOcorrencia = "Consulta online";
@@ -406,8 +469,9 @@ public class Main {
 
                                             paciente.abreOcorrencia(assuntoOcorrencia, textoOcorrencia);
                                             break;
+
+                                        // Marcar Consulta
                                         case 2:
-                                            // Marcar Consulta
                                             consulta = new Consulta();
                                             do {
 //                                            localConsulta = JOptionPane.showInputDialog("Consulta será PRESENCIAL ou ONLINE?");
@@ -428,13 +492,14 @@ public class Main {
                                                 }
                                             } while (consulta.getDataHora() ==  null);
 
+                                            consulta.setMedico(medico);
                                             consulta.setTratamento(tratamento);
                                             paciente.setConsulta(consulta);
 
                                             break;
-                                        case 3:
-                                            // Remarcar Consulta
 
+                                        // Remarcar Consulta
+                                        case 3:
                                             if (paciente.getConsulta() == null) {
                                                 JOptionPane.showMessageDialog(null, "Paciente não possui consultas para serem reagendadas.");
                                             } else {
@@ -450,10 +515,39 @@ public class Main {
                                                     }
                                                 } while (!consultaRemarcada);
                                             }
-
                                             break;
+
+                                        // Mostrar Consultas Marcadas
+                                        case 4:
+                                            if (paciente.getConsulta() == null) {
+                                                JOptionPane.showMessageDialog(null, "Paciente não possui consultas para serem mostradas.");
+                                            } else {
+                                                consultaInfo = "=== Consulta Marcada ===\n" +
+                                                        "Data: " + paciente.getConsulta().dataFormatada() + "\n" +
+                                                        "Local: " + paciente.getConsulta().getLocal() + "\n" +
+                                                        "Tratamento: " + paciente.getConsulta().getTratamento().getNome();
+                                                JOptionPane.showMessageDialog(null, consultaInfo);
+                                            }
+                                            break;
+
+                                        // Mostrar Prontuário do Paciente
+                                        case 5:
+                                            if (paciente.getProntuario() == null) {
+                                                JOptionPane.showMessageDialog(null, "Paciente não possui prontuário.");
+                                            } else {
+                                                prontuarioInfo = "=== Prontuário do Paciente ===\n" +
+                                                        "Descrição: " + prontuario.getDescriacao() + "\n\n" +
+                                                        "=== Exame ===\n" +
+                                                        "  Nome: " + prontuario.getExame().getNome() + "\n" +
+                                                        "  Data: " + prontuario.getExame().dataFormatada() + "\n" +
+                                                        "  Obs: " + prontuario.getExame().getObservacoes() + "\n";
+                                                JOptionPane.showMessageDialog(null, prontuarioInfo);
+                                            }
+                                            break;
+
                                         case 0:
                                             break;
+
                                         default:
                                             JOptionPane.showMessageDialog(null, "Opção inválida!");
                                     }
@@ -465,11 +559,6 @@ public class Main {
                         }
                         break;
 
-                    // MÉDICO:
-                    case 3:
-//                        menuMedico(scanner);
-                        System.out.println("médico 2 foi cadastrado com sucesso!");
-                        break;
                     case 0:
                         JOptionPane.showMessageDialog(null, "Obrigado por usar o Sistema VitalLink Tecnologia!");
                         break;
@@ -481,8 +570,6 @@ public class Main {
                 System.out.println(e);
                 System.out.println("\n");
                 System.out.println(e.getMessage());
-//                scanner.nextLine(); // Consumir a entrada inválida
-                // Para garantir que o loop continue
                 escolha = -1;
             }
 
@@ -529,116 +616,5 @@ public class Main {
 //                        System.out.println("Simulando acesso a um prontuário. Em um sistema real, você buscaria por um paciente.");
 //                        // Criando um prontuário dummy com paciente dummy para demonstração
 //                        Paciente pacienteDummy = new Paciente("Paciente Teste", LocalDate.of(1980, 5, 10), "987654321", new Endereco(), new Contato(), 12345, null, null);
-//                        Prontuario prontuarioDummy = new Prontuario(pacienteDummy, new ArrayList<>(), "Anotações iniciais do prontuário teste.");
-//                        prontuarioDummy.addExame(new Exame(101, "Hemograma Completo", "Resultados normais."));
 //
-//                        System.out.println("Prontuário de: " + prontuarioDummy.getPaciente().getNome());
-//                        System.out.println("Anotações: " + prontuarioDummy.getAnotacoes());
-//                        System.out.println("Exames:");
-//                        for (Exame exame : prontuarioDummy.getExames()) {
-//                            System.out.println("  - Código: " + exame.getCodigo() + ", Nome: " + exame.getNome() + ", Observações: " + exame.getObservacoes());
-//                        }
-//                        break;
-//                    case 0:
-//                        System.out.println("Voltando ao Menu Principal...");
-//                        break;
-//                    default:
-//                        System.out.println("Opção inválida. Por favor, escolha novamente.");
-//                }
-//            } catch (InputMismatchException e) {
-//                System.out.println("Erro: Entrada inválida. Por favor, digite um número.");
-//                scanner.nextLine(); // Consumir a entrada inválida
-//                opcaoMedico = -1;
-//            }
-//        } while (opcaoMedico != 0);
-//    }
-
-//    private static Paciente criarPaciente(Scanner scanner) {
-//
-//    }
-
-//    private static Medico criarMedico(Scanner scanner) {
-//        System.out.print("Nome do Médico: ");
-//        String nome = scanner.nextLine();
-//
-//        LocalDate dataNascimento = null;
-//        boolean dataValida = false;
-//        while (!dataValida) {
-//            System.out.print("Data de Nascimento (DD/MM/YYYY): ");
-//            String dataStr = scanner.nextLine();
-//            try {
-//                dataNascimento = LocalDate.parse(dataStr, java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-//                dataValida = true;
-//            } catch (DateTimeParseException e) {
-//                System.out.println("Erro: Formato de data inválido. Use DD/MM/YYYY.");
-//            }
-//        }
-//
-//        System.out.print("Documento (CPF/RG): ");
-//        String documento = scanner.nextLine();
-//
-//        // Criando Endereço
-//        System.out.println("--- Endereço ---");
-//        System.out.print("Logradouro: ");
-//        String logradouro = scanner.nextLine();
-//        System.out.print("Número: ");
-//        String numero = scanner.nextLine();
-//        System.out.print("Complemento (opcional): ");
-//        String complemento = scanner.nextLine();
-//        System.out.print("Bairro: ");
-//        String bairro = scanner.nextLine();
-//        System.out.print("Cidade: ");
-//        String cidade = scanner.nextLine();
-//        System.out.print("Estado: ");
-//        String estado = scanner.nextLine();
-//        int cep = 0;
-//        boolean cepValido = false;
-//        while (!cepValido) {
-//            System.out.print("CEP (apenas números): ");
-//            try {
-//                cep = scanner.nextInt();
-//                scanner.nextLine();
-//                cepValido = true;
-//            } catch (InputMismatchException e) {
-//                System.out.println("Erro: CEP inválido. Digite apenas números.");
-//                scanner.nextLine();
-//            }
-//        }
-//        Endereco endereco = new Endereco(logradouro, numero, complemento, bairro, cidade, estado, cep);
-//
-//        // Criando Contato
-//        System.out.println("--- Contato ---");
-//        System.out.print("Telefone: ");
-//        String telefone = scanner.nextLine();
-//        System.out.print("Email: ");
-//        String email = scanner.nextLine();
-//        Contato contato = new Contato(telefone, email);
-//
-//        System.out.print("Código CRM: ");
-//        String codigoCRM = scanner.nextLine();
-//
-//        boolean disponibilidadeOnline = false;
-//        boolean inputValido = false;
-//        while (!inputValido) {
-//            System.out.print("Disponibilidade Online (true/false): ");
-//            String resp = scanner.nextLine().toLowerCase();
-//            if (resp.equals("true")) {
-//                disponibilidadeOnline = true;
-//                inputValido = true;
-//            } else if (resp.equals("false")) {
-//                disponibilidadeOnline = false;
-//                inputValido = true;
-//            } else {
-//                System.out.println("Erro: Resposta inválida. Digite 'true' ou 'false'.");
-//            }
-//        }
-//
-//        System.out.print("Especialidade (Nome): ");
-//        String nomeEspecialidade = scanner.nextLine();
-//        Especialidade especialidade = new Especialidade(1, nomeEspecialidade); // Código dummy
-//
-//        Medico medico = new Medico(nome, dataNascimento, documento, endereco, contato, codigoCRM, disponibilidadeOnline, especialidade);
-//        System.out.println("Médico Dr(a). " + medico.getNome() + " cadastrado com sucesso!");
-//        return medico;
-//    }
 }

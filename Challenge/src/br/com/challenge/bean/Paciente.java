@@ -10,16 +10,17 @@ public class Paciente extends Pessoa {
     private RedeCredenciada redeCredenciada;
     private Acompanhante acompanhante;
     private Consulta consulta;
+    private Prontuario prontuario;
 
     public Paciente() {
     }
 
-//    public Paciente(String nome, LocalDate dataNascimento, String documento, Endereco endereco, Contato contato, int numeroCadastro, RedeCredenciada redeCredenciada, Acompanhante acompanhante) {
-//        super(nome, dataNascimento, documento, endereco, contato);
-//        this.numeroCadastro = numeroCadastro;
-//        this.redeCredenciada = redeCredenciada;
-//        this.acompanhante = acompanhante;
-//    }
+    public Paciente(String nome, LocalDate dataNascimento, String documento, Endereco endereco, Contato contato, int numeroCadastro, RedeCredenciada redeCredenciada, Acompanhante acompanhante) {
+        super(nome, dataNascimento, documento, endereco, contato);
+        this.numeroCadastro = numeroCadastro;
+        this.redeCredenciada = redeCredenciada;
+        this.acompanhante = acompanhante;
+    }
 
     public int getNumeroCadastro() {
         return numeroCadastro;
@@ -63,6 +64,15 @@ public class Paciente extends Pessoa {
         JOptionPane.showMessageDialog(null, mensagem);
     }
 
+    public Prontuario getProntuario() {
+        return prontuario;
+    }
+
+    public void setProntuario(Prontuario prontuario) {
+        this.prontuario = prontuario;
+    }
+
+    // Métodos de classe
     public void abreOcorrencia(String assunto, String texto) {
         Ocorrencia ocorrencia = new Ocorrencia(this, assunto, texto);
         String mensagem = String.format(
