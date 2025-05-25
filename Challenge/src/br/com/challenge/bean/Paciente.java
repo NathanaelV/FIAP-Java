@@ -13,13 +13,15 @@ public class Paciente extends Pessoa {
     private Prontuario prontuario;
 
     public Paciente() {
+        // Número será definido automaticamente pelo sistema. Semelhante a um ID
+        this.numeroCadastro = 1234;
     }
 
-    public Paciente(String nome, LocalDate dataNascimento, String documento, Endereco endereco, Contato contato, int numeroCadastro, RedeCredenciada redeCredenciada, Acompanhante acompanhante) {
+    public Paciente(String nome, LocalDate dataNascimento, String documento, Endereco endereco, Contato contato, RedeCredenciada redeCredenciada, Acompanhante acompanhante) {
         super(nome, dataNascimento, documento, endereco, contato);
-        this.numeroCadastro = numeroCadastro;
         this.redeCredenciada = redeCredenciada;
         this.acompanhante = acompanhante;
+        this.numeroCadastro = 1234;
     }
 
     public int getNumeroCadastro() {

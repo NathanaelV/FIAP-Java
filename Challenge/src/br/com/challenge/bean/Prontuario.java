@@ -1,25 +1,25 @@
 package br.com.challenge.bean;
 
 public class Prontuario {
-    private String descriacao;
+    private String descricao;
     private Paciente paciente;
     private Exame exame;
 
     public Prontuario() {}
 
-    public Prontuario(String descriacao, Paciente paciente, Exame exame) {
-        this.descriacao = descriacao;
+    public Prontuario(String descricao, Paciente paciente, Exame exame) {
+        this.descricao = descricao;
         setPaciente(paciente);
         this.exame = exame;
     }
 
     // Getter e Setter
-    public String getDescriacao() {
-        return descriacao;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setDescriacao(String descriacao) {
-        this.descriacao = descriacao;
+    public void setDescricao(String descriacao) {
+        this.descricao = descriacao;
     }
 
     public Paciente getPaciente() {

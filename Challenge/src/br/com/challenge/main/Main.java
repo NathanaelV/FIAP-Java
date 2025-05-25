@@ -3,20 +3,15 @@ package br.com.challenge.main;
 import br.com.challenge.bean.*;
 
 import javax.swing.*;
-import java.text.CompactNumberFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         // Classes locais
         Paciente paciente = new Paciente();
+        Contato contato = new Contato();
+        Endereco endereco = new Endereco();
         RedeCredenciada redeCredenciada;
         Acompanhante acompanhante;
         Contato contatoAcompanhante;
@@ -43,16 +38,15 @@ public class Main {
         );
 
         // Definições do Prontuário
-        prontuario.setPaciente(paciente);
         prontuario.setExame(exame);
-        prontuario.setDescriacao("O paciente vem apresentando uma melhora lenta.");
+        prontuario.setDescricao("O paciente vem apresentando uma melhora lenta.");
 
 
         // Tipos primitivos
         String menuOpcoes, nomePaciente, aux, documento, dataStr, telefone, email, logradouro, numero, complemento,
                 bairro, cidade, estado, cep, nomeRede, codigoRede, tipoDePlano, nomeAcompanhante, assuntoOcorrencia,
                 textoOcorrencia, localConsulta, parentesco, consultaInfo, prontuarioInfo;
-        int escolha, numeroCadastro, opcaoAcompanhante, escolhaMenu;
+        int escolha, opcaoAcompanhante, escolhaMenu;
         boolean telOuEmail, consultaRemarcada = false;
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -62,10 +56,9 @@ public class Main {
         do {
             try {
                 menuOpcoes = "--- Bem-vindo ao Sistema VitalLink Tecnologia! ---\n\n" +
-                        "Escolha seu perfil:\n" +
+                        "Escolha uma opção:\n" +
                         "(1) Criar Paciente\n" +
                         "(2) Logar Paciente\n" +
-                        "(2) Médico\n" +
                         "(0) Sair\n\n" +
                         "Digite sua opção: ";
                 aux = JOptionPane.showInputDialog(menuOpcoes);
@@ -75,124 +68,107 @@ public class Main {
                 switch (escolha) {
                     case 1:
                         // Cadastrar Paciente
-//                        paciente = new Paciente();
-
+                        paciente = new Paciente();
                         do {
-//                            nomePaciente = JOptionPane.showInputDialog("\n--- Menu do Paciente ---\nVamos cadastrar suas informações.\n\nNome do Paciente (Obrigatório)");
-                            nomePaciente = "Raph";
+                            nomePaciente = JOptionPane.showInputDialog("\n--- Menu do Paciente ---\nVamos cadastrar suas informações.\n\nNome do Paciente (Obrigatório)");
+//                            nomePaciente = "Raph";
                             paciente.setNome(nomePaciente);
                         } while (paciente.getNome().isEmpty());
 
                         do {
-//                            dataStr = JOptionPane.showInputDialog("Data de Nascimento (DD/MM/YYYY) (Obrigatório)");
-                            dataStr = "05/04/2000";
+                            dataStr = JOptionPane.showInputDialog("Data de Nascimento (DD/MM/YYYY) (Obrigatório)");
+//                            dataStr = "05/04/2000";
                             try {
                                 dataNascimento = LocalDate.parse(dataStr, dtf);
                                 paciente.setDataNascimento(dataNascimento);
-                                System.out.println("\n\n" + dataNascimento);
                             } catch (Exception e) {
                                 JOptionPane.showMessageDialog(null, "Erro: Formato de data inválido. Use DD/MM/YYYY.");
                             }
                         } while (paciente.getDataNascimento() == null);
 
                         do {
-//                            documento = JOptionPane.showInputDialog("Documento (CPF) (Obrigatório - somente números)");
-                            documento = "12312312344";
+                            documento = JOptionPane.showInputDialog("Documento (CPF) (Obrigatório - somente números)");
+//                            documento = "12312312344";
                             paciente.setDocumento(documento);
                         } while (paciente.getDocumento().isEmpty());
 
                         // Contato
-                        paciente.setContato(new Contato());
-
                         do {
-//                            telefone = JOptionPane.showInputDialog("Número para contato");
-                            telefone = "123456789";
-                            paciente.getContato().setTelefone(telefone);
+                            telefone = JOptionPane.showInputDialog("Número para contato incluindo DDD");
+//                            telefone = "123456789";
+                            contato.setTelefone(telefone);
 
-//                            email = JOptionPane.showInputDialog("Email para contato");
-                            email = "meu@email.com";
-                            paciente.getContato().setEmail(email);
+                            email = JOptionPane.showInputDialog("Email para contato");
+//                            email = "meu@email.com";
+                            contato.setEmail(email);
 
-                            telOuEmail = paciente.getContato().getTelefone().isEmpty() && paciente.getContato().getEmail().isEmpty();
-                            System.out.println(telOuEmail);
+                            telOuEmail = contato.getTelefone().length() < 11 && contato.getEmail().isEmpty();
                             if (telOuEmail) {
                                 JOptionPane.showMessageDialog(null, "Digite pelo menos uma informação para contato");
                             }
                         } while (telOuEmail);
 
+                        paciente.setContato(contato);
 
                         // Endereço
-                        paciente.setEndereco(new Endereco());
                         do {
-//                            logradouro = JOptionPane.showInputDialog("Cadastrar endereço do usuário\n\nLogradouro (Obrigatório)");
-                            logradouro = "Av. Lins de Vasconcelos";
-                            paciente.getEndereco().setLogradouro(logradouro);
-                        } while (paciente.getEndereco().getLogradouro().isEmpty());
+                            logradouro = JOptionPane.showInputDialog("Cadastrar endereço do usuário\n\nLogradouro (Obrigatório)");
+//                            logradouro = "Av. Lins de Vasconcelos";
+                            endereco.setLogradouro(logradouro);
+                        } while (endereco.getLogradouro().isEmpty());
 
                         do {
-//                            numero = JOptionPane.showInputDialog("Número (Obrigatório)");
-                            numero = "1222";
-                            paciente.getEndereco().setNumero(numero);
-                        } while (paciente.getEndereco().getNumero().isEmpty());
+                            numero = JOptionPane.showInputDialog("Número (Obrigatório)");
+//                            numero = "1222";
+                            endereco.setNumero(numero);
+                        } while (endereco.getNumero().isEmpty());
 
-//                        complemento = JOptionPane.showInputDialog("Complemento");
-                        complemento = "";
-                        paciente.getEndereco().setComplemento(complemento);
-
-                        do {
-//                            bairro = JOptionPane.showInputDialog("Bairro (Obrigatório)");
-                            bairro = "Aclimação";
-                            paciente.getEndereco().setBairro(bairro);
-                        } while (paciente.getEndereco().getBairro().isEmpty());
+                        complemento = JOptionPane.showInputDialog("Complemento");
+//                        complemento = "";
+                        endereco.setComplemento(complemento);
 
                         do {
-//                            cidade = JOptionPane.showInputDialog("Cidade (Obrigatório)");
-                            cidade = "São Paulo";
-                            paciente.getEndereco().setCidade(cidade);
-                        } while (paciente.getEndereco().getCidade().isEmpty());
+                            bairro = JOptionPane.showInputDialog("Bairro (Obrigatório)");
+//                            bairro = "Aclimação";
+                            endereco.setBairro(bairro);
+                        } while (endereco.getBairro().isEmpty());
 
                         do {
-//                            estado = JOptionPane.showInputDialog("Estado (Obrigatório)");
-                            estado = "SP";
-                            paciente.getEndereco().setEstado(estado);
-                        } while (paciente.getEndereco().getEstado().isEmpty());
+                            cidade = JOptionPane.showInputDialog("Cidade (Obrigatório)");
+//                            cidade = "São Paulo";
+                            endereco.setCidade(cidade);
+                        } while (endereco.getCidade().isEmpty());
 
                         do {
-//                            cep = JOptionPane.showInputDialog("CEP (Obrigatório - somente números)");
-                            cep = "01538001";
-                            paciente.getEndereco().setCep(cep);
-                        } while (paciente.getEndereco().getCep().isEmpty());
+                            estado = JOptionPane.showInputDialog("Estado (Obrigatório)");
+//                            estado = "SP";
+                            endereco.setEstado(estado);
+                        } while (endereco.getEstado().isEmpty());
+
+                        do {
+                            cep = JOptionPane.showInputDialog("CEP (Obrigatório - somente números)");
+//                            cep = "01001000";
+                            endereco.setCep(cep);
+                        } while (endereco.getCep().length() != 8);
+
+                        paciente.setEndereco(endereco);
 
 
                         // Informações específicas do Paciente
 
-                        // Número de cadastro
-                        do {
-                            try {
-//                                aux = JOptionPane.showInputDialog("Número de cadastro (Não pode ser Zero)");
-                                aux = "12345";
-                                numeroCadastro = Integer.parseInt(aux);
-                                paciente.setNumeroCadastro(numeroCadastro);
-                            } catch (Exception e) {
-                                JOptionPane.showMessageDialog(null, "Digite um número válido diferente de zero.");
-                                paciente.setNumeroCadastro(0);
-                            }
-                        } while (paciente.getNumeroCadastro() == 0);
-
-
                         // Rede Credenciada
                         do {
-//                            nomeRede = JOptionPane.showInputDialog("--- Rede Credenciada ---\n\nNome da Rede Credenciada (Obrigatório)");
-                            nomeRede = "Unimad";
+                            nomeRede = JOptionPane.showInputDialog("--- Rede Credenciada ---\n\nNome da Rede Credenciada (Obrigatório)");
+//                            nomeRede = "Unimad";
                         } while (nomeRede.isEmpty());
 
 
-//                        codigoRede = JOptionPane.showInputDialog("Digite o código do Convênio: ");
-                        codigoRede = "472";
+                        codigoRede = JOptionPane.showInputDialog("Digite o código do Convênio");
+//                        codigoRede = "472";
 
                         do {
-//                            tipoDePlano = JOptionPane.showInputDialog("Digite o tipo de plano: ");
-                            tipoDePlano = "Básico";
+                            tipoDePlano = JOptionPane.showInputDialog("Digite o tipo de plano (Obrigatório)");
+//                            tipoDePlano = "Básico";
                         } while (tipoDePlano.isEmpty());
 
                         redeCredenciada = new RedeCredenciada(nomeRede, codigoRede, tipoDePlano);
@@ -208,19 +184,20 @@ public class Main {
                                 JOptionPane.YES_NO_OPTION,
                                 JOptionPane.QUESTION_MESSAGE
                         );
+//                        opcaoAcompanhante = JOptionPane.NO_OPTION;
 
                         if (opcaoAcompanhante == JOptionPane.YES_OPTION) {
                             acompanhante = new Acompanhante();
 
                             do {
-//                            nomeAcompanhante = JOptionPane.showInputDialog("\n--- Menu do Acompanhante ---\n\nNome do Acompanhante (Obrigatório) ");
-                                nomeAcompanhante = "Michelangelo";
+                                nomeAcompanhante = JOptionPane.showInputDialog("\n--- Menu do Acompanhante ---\n\nNome do Acompanhante (Obrigatório) ");
+//                                nomeAcompanhante = "Michelangelo";
                                 acompanhante.setNome(nomeAcompanhante);
                             } while (acompanhante.getNome().isEmpty());
 
                             do {
-//                            dataStr = JOptionPane.showInputDialog("Data de Nascimento (DD/MM/YYYY) (Obrigatório)");
-                                dataStr = "05/04/2002";
+                                dataStr = JOptionPane.showInputDialog("Data de Nascimento (DD/MM/YYYY) (Obrigatório)");
+//                                dataStr = "05/04/2002";
                                 try {
                                     dataNascimento = LocalDate.parse(dataStr, dtf);
                                     acompanhante.setDataNascimento(dataNascimento);
@@ -230,24 +207,23 @@ public class Main {
                             } while (acompanhante.getDataNascimento() == null);
 
                             do {
-//                            documento = JOptionPane.showInputDialog("Documento (CPF) (Obrigatório - somente números)");
-                                documento = "12312312344";
+                                documento = JOptionPane.showInputDialog("Documento (CPF) (Obrigatório - somente números)");
+//                                documento = "12312312344";
                                 acompanhante.setDocumento(documento);
                             } while (acompanhante.getDocumento().isEmpty());
 
                             // Contato
                             contatoAcompanhante = new Contato();
                             do {
-//                            telefone = JOptionPane.showInputDialog("Número para contato");
-                                telefone = "123456789";
+                                telefone = JOptionPane.showInputDialog("Número para contato");
+//                                telefone = "123456789";
                                 contatoAcompanhante.setTelefone(telefone);
 
-//                            email = JOptionPane.showInputDialog("Email para contato");
-                                email = "meu@email.com";
+                                email = JOptionPane.showInputDialog("Email para contato");
+//                                email = "meu@email.com";
                                 contatoAcompanhante.setEmail(email);
 
                                 telOuEmail = contatoAcompanhante.getTelefone().isEmpty() && contatoAcompanhante.getEmail().isEmpty();
-                                System.out.println(telOuEmail);
                                 if (telOuEmail) {
                                     JOptionPane.showMessageDialog(null, "Digite pelo menos uma informação para contato");
                                 }
@@ -255,8 +231,8 @@ public class Main {
 
                             // Grau parentesco
                             do {
-//                                parentesco = JOptionPane.showInputDialog("Qual o grau parentesco?");
-                                parentesco = "Irmão";
+                                parentesco = JOptionPane.showInputDialog("Qual o grau parentesco?");
+//                                parentesco = "Irmão";
                                 acompanhante.setGrauParentesco(parentesco);
                             } while (parentesco.isEmpty());
 
@@ -278,7 +254,7 @@ public class Main {
                         JOptionPane.showMessageDialog(null, patientInfo);
 
                         String addressInfo = "=== Address Information ===\n" +
-                                "Rua: " + paciente.getEndereco().getLogradouro() + "\n" +
+                                "Rua: " + endereco.getLogradouro() + "\n" +
                                 "Número: " + paciente.getEndereco().getNumero() + "\n" +
                                 "Complemento: " + paciente.getEndereco().getComplemento() + "\n" +
                                 "Bairro: " + paciente.getEndereco().getBairro() + "\n" +
@@ -329,13 +305,13 @@ public class Main {
                                     // Abrir ocorrência
                                     case 1:
                                         do {
-//                                            assuntoOcorrencia = JOptionPane.showInputDialog("Tema da ocorrência");
-                                            assuntoOcorrencia = "Consulta online";
+                                            assuntoOcorrencia = JOptionPane.showInputDialog("Tema da ocorrência");
+//                                            assuntoOcorrencia = "Consulta online";
                                         } while (assuntoOcorrencia.isEmpty());
 
                                         do {
-//                                            textoOcorrencia = JOptionPane.showInputDialog("Qual a ocorrência:");
-                                            textoOcorrencia = "Não consigo encontrar a tela para conectar.";
+                                            textoOcorrencia = JOptionPane.showInputDialog("Qual a ocorrência:");
+//                                            textoOcorrencia = "Não consigo encontrar a tela para conectar.";
                                         } while (textoOcorrencia.isEmpty());
 
                                         paciente.abreOcorrencia(assuntoOcorrencia, textoOcorrencia);
@@ -345,21 +321,21 @@ public class Main {
                                     case 2:
                                         consulta = new Consulta();
                                         do {
-//                                            localConsulta = JOptionPane.showInputDialog("Consulta será PRESENCIAL ou ONLINE?");
-                                            localConsulta = "ONLINE";
+                                            localConsulta = JOptionPane.showInputDialog("Consulta será PRESENCIAL ou ONLINE?");
+//                                            localConsulta = "ONLINE";
                                             consulta.setLocal(localConsulta);
                                         } while (consulta.getLocal().isEmpty());
 
                                         // Data da consulta
                                         do {
-//                                            dataStr = JOptionPane.showInputDialog("Data da consulta (DD/MM/YYYY) (Obrigatório)");
-                                            dataStr = "05/04/2030";
+                                            dataStr = JOptionPane.showInputDialog("Data da consulta (DD/MM/YYYY) (Obrigatório)");
+//                                            dataStr = "05/04/2030";
 
                                             try {
                                                 dataHora = LocalDate.parse(dataStr, dtf);
                                                 consulta.setDataHora(dataHora);
                                             } catch (Exception e) {
-                                                JOptionPane.showMessageDialog(null, "Erro: Formato de data inválido. Use DD/MM/YYYY. \n" + e.getMessage());
+                                                JOptionPane.showMessageDialog(null, "Erro: Formato de data inválido. Use DD/MM/YYYY. \n");
                                             }
                                         } while (consulta.getDataHora() ==  null);
 
@@ -368,6 +344,7 @@ public class Main {
                                         consulta.setTratamento(tratamento);
                                         consulta.setProntuario(prontuario);
                                         paciente.setConsulta(consulta);
+                                        prontuario.setPaciente(paciente);
 
                                         break;
 
@@ -377,14 +354,14 @@ public class Main {
                                             JOptionPane.showMessageDialog(null, "Paciente não possui consultas para serem reagendadas.");
                                         } else {
                                             do {
-//                                                dataStr = JOptionPane.showInputDialog("Nova data da consulta (DD/MM/YYYY) (Obrigatório)");
-                                                dataStr = "25/11/2030";
+                                                dataStr = JOptionPane.showInputDialog("Nova data da consulta (DD/MM/YYYY) (Obrigatório)");
+//                                                dataStr = "25/11/2030";
 
                                                 try {
                                                     dataHora = LocalDate.parse(dataStr, dtf);
                                                     consultaRemarcada = paciente.getConsulta().remarcar(dataHora);
                                                 } catch (Exception e) {
-                                                    JOptionPane.showMessageDialog(null, "Erro: Formato de data inválido. Use DD/MM/YYYY. \n" + e.getMessage());
+                                                    JOptionPane.showMessageDialog(null, "Erro: Formato de data inválido. Use DD/MM/YYYY. \n");
                                                 }
                                             } while (!consultaRemarcada);
                                         }
@@ -410,7 +387,7 @@ public class Main {
                                             JOptionPane.showMessageDialog(null, "Paciente não possui prontuário.");
                                         } else {
                                             prontuarioInfo = "=== Prontuário do Paciente ===\n" +
-                                                    "Descrição: " + prontuario.getDescriacao() + "\n\n" +
+                                                    "Descrição: " + prontuario.getDescricao() + "\n\n" +
                                                     "=== Exame ===\n" +
                                                     "  Nome: " + prontuario.getExame().getNome() + "\n" +
                                                     "  Data: " + prontuario.getExame().dataFormatada() + "\n" +
@@ -427,7 +404,7 @@ public class Main {
                                         JOptionPane.showMessageDialog(null, "Opção inválida!");
                                 }
                             } catch (Exception e) {
-                                JOptionPane.showMessageDialog(null, "Por favor digite um número válido!\n" + e.getMessage());
+                                JOptionPane.showMessageDialog(null, "Por favor digite um número válido!\n");
                                 escolhaMenu = -1;
                             }
                         } while (escolhaMenu != 0);
@@ -458,13 +435,13 @@ public class Main {
                                         // Abrir ocorrência
                                         case 1:
                                             do {
-//                                            assuntoOcorrencia = JOptionPane.showInputDialog("Tema da ocorrência");
-                                                assuntoOcorrencia = "Consulta online";
+                                                assuntoOcorrencia = JOptionPane.showInputDialog("Tema da ocorrência");
+//                                                assuntoOcorrencia = "Consulta online";
                                             } while (assuntoOcorrencia.isEmpty());
 
                                             do {
-//                                            textoOcorrencia = JOptionPane.showInputDialog("Qual a ocorrência:");
-                                                textoOcorrencia = "Não consigo encontrar a tela para conectar.";
+                                                textoOcorrencia = JOptionPane.showInputDialog("Qual a ocorrência:");
+//                                                textoOcorrencia = "Não consigo encontrar a tela para conectar.";
                                             } while (textoOcorrencia.isEmpty());
 
                                             paciente.abreOcorrencia(assuntoOcorrencia, textoOcorrencia);
@@ -474,21 +451,21 @@ public class Main {
                                         case 2:
                                             consulta = new Consulta();
                                             do {
-//                                            localConsulta = JOptionPane.showInputDialog("Consulta será PRESENCIAL ou ONLINE?");
-                                                localConsulta = "ONLINE";
+                                                localConsulta = JOptionPane.showInputDialog("Consulta será PRESENCIAL ou ONLINE?");
+//                                                localConsulta = "ONLINE";
                                                 consulta.setLocal(localConsulta);
                                             } while (consulta.getLocal().isEmpty());
 
                                             // Data da consulta
                                             do {
-//                                            dataStr = JOptionPane.showInputDialog("Data da consulta (DD/MM/YYYY) (Obrigatório)");
-                                                dataStr = "05/04/2030";
+                                                dataStr = JOptionPane.showInputDialog("Data da consulta (DD/MM/YYYY) (Obrigatório)");
+//                                                dataStr = "05/04/2030";
 
                                                 try {
                                                     dataHora = LocalDate.parse(dataStr, dtf);
                                                     consulta.setDataHora(dataHora);
                                                 } catch (Exception e) {
-                                                    JOptionPane.showMessageDialog(null, "Erro: Formato de data inválido. Use DD/MM/YYYY. \n" + e.getMessage());
+                                                    JOptionPane.showMessageDialog(null, "Erro: Formato de data inválido. Use DD/MM/YYYY. \n");
                                                 }
                                             } while (consulta.getDataHora() ==  null);
 
@@ -504,14 +481,14 @@ public class Main {
                                                 JOptionPane.showMessageDialog(null, "Paciente não possui consultas para serem reagendadas.");
                                             } else {
                                                 do {
-//                                                dataStr = JOptionPane.showInputDialog("Nova data da consulta (DD/MM/YYYY) (Obrigatório)");
-                                                    dataStr = "25/11/2030";
+                                                    dataStr = JOptionPane.showInputDialog("Nova data da consulta (DD/MM/YYYY) (Obrigatório)");
+//                                                    dataStr = "25/11/2030";
 
                                                     try {
                                                         dataHora = LocalDate.parse(dataStr, dtf);
                                                         consultaRemarcada = paciente.getConsulta().remarcar(dataHora);
                                                     } catch (Exception e) {
-                                                        JOptionPane.showMessageDialog(null, "Erro: Formato de data inválido. Use DD/MM/YYYY. \n" + e.getMessage());
+                                                        JOptionPane.showMessageDialog(null, "Erro: Formato de data inválido. Use DD/MM/YYYY. \n");
                                                     }
                                                 } while (!consultaRemarcada);
                                             }
@@ -536,7 +513,7 @@ public class Main {
                                                 JOptionPane.showMessageDialog(null, "Paciente não possui prontuário.");
                                             } else {
                                                 prontuarioInfo = "=== Prontuário do Paciente ===\n" +
-                                                        "Descrição: " + prontuario.getDescriacao() + "\n\n" +
+                                                        "Descrição: " + prontuario.getDescricao() + "\n\n" +
                                                         "=== Exame ===\n" +
                                                         "  Nome: " + prontuario.getExame().getNome() + "\n" +
                                                         "  Data: " + prontuario.getExame().dataFormatada() + "\n" +
@@ -552,7 +529,7 @@ public class Main {
                                             JOptionPane.showMessageDialog(null, "Opção inválida!");
                                     }
                                 } catch (Exception e) {
-                                    JOptionPane.showMessageDialog(null, "Por favor digite um número válido!\n" + e.getMessage());
+                                    JOptionPane.showMessageDialog(null, "Por favor digite um número válido!\n");
                                     escolhaMenu = -1;
                                 }
                             } while (escolhaMenu != 0);
@@ -563,58 +540,13 @@ public class Main {
                         JOptionPane.showMessageDialog(null, "Obrigado por usar o Sistema VitalLink Tecnologia!");
                         break;
                     default:
-                        System.out.println("Opção inválida. Por favor, escolha novamente.");
+                        JOptionPane.showMessageDialog(null, "Opção inválida. Por favor, escolha novamente.");
                 }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Erro: Entrada inválida. Por favor, digite um número.");
-                System.out.println(e);
-                System.out.println("\n");
-                System.out.println(e.getMessage());
                 escolha = -1;
             }
 
         } while (escolha != 0);
     }
-
-//    private static void menuMedico(Scanner scanner) {
-//        System.out.println("\n--- Menu do Médico ---");
-//        System.out.println("Vamos cadastrar suas informações.");
-//
-//        Medico medico = criarMedico(scanner);
-//        if (medico == null) {
-//            System.out.println("Cadastro de médico cancelado ou inválido.");
-//            return;
-//        }
-//
-//        int opcaoMedico;
-//        do {
-//            System.out.println("\nMédico: Dr(a). " + medico.getNome());
-//            System.out.println("1. Adicionar um Relatório a uma Consulta (simulado)");
-//            System.out.println("2. Acessar Prontuário de um Paciente (simulado)");
-//            System.out.println("0. Voltar ao Menu Principal");
-//            System.out.print("Sua opção: ");
-//
-//            try {
-//                opcaoMedico = scanner.nextInt();
-//                scanner.nextLine(); // Consumir a nova linha
-//
-//                switch (opcaoMedico) {
-//                    case 1:
-//                        System.out.println("--- Adicionar Relatório ---");
-//                        System.out.print("Digite o código da consulta para adicionar o relatório: ");
-//                        int codigoConsulta = scanner.nextInt();
-//                        scanner.nextLine();
-//                        System.out.print("Digite o texto do relatório: ");
-//                        String textoRelatorio = scanner.nextLine();
-//                        Consulta consultaDummy = new Consulta(); // Criando uma consulta dummy para o teste
-//                        consultaDummy.setCodigo(codigoConsulta);
-//                        consultaDummy.adicionaRelatorio(medico, textoRelatorio);
-//                        System.out.println("Relatório adicionado à consulta " + codigoConsulta + " com sucesso!");
-//                        break;
-//                    case 2:
-//                        System.out.println("--- Acessar Prontuário ---");
-//                        System.out.println("Simulando acesso a um prontuário. Em um sistema real, você buscaria por um paciente.");
-//                        // Criando um prontuário dummy com paciente dummy para demonstração
-//                        Paciente pacienteDummy = new Paciente("Paciente Teste", LocalDate.of(1980, 5, 10), "987654321", new Endereco(), new Contato(), 12345, null, null);
-//
 }
