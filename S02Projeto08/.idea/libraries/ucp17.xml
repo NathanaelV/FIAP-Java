@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ucp17">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/ucp17.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
