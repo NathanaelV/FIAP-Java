@@ -70,14 +70,14 @@ public class Main {
                         // Cadastrar Paciente
                         paciente = new Paciente();
                         do {
-                            nomePaciente = JOptionPane.showInputDialog("\n--- Menu do Paciente ---\nVamos cadastrar suas informações.\n\nNome do Paciente (Obrigatório)");
-//                            nomePaciente = "Raph";
+//                            nomePaciente = JOptionPane.showInputDialog("\n--- Menu do Paciente ---\nVamos cadastrar suas informações.\n\nNome do Paciente (Obrigatório)");
+                            nomePaciente = "Raph";
                             paciente.setNome(nomePaciente);
                         } while (paciente.getNome().isEmpty());
 
                         do {
-                            dataStr = JOptionPane.showInputDialog("Data de Nascimento (DD/MM/YYYY) (Obrigatório)");
-//                            dataStr = "05/04/2000";
+//                            dataStr = JOptionPane.showInputDialog("Data de Nascimento (DD/MM/YYYY) (Obrigatório)");
+                            dataStr = "05/04/2000";
                             try {
                                 dataNascimento = LocalDate.parse(dataStr, dtf);
                                 paciente.setDataNascimento(dataNascimento);
@@ -87,19 +87,19 @@ public class Main {
                         } while (paciente.getDataNascimento() == null);
 
                         do {
-                            documento = JOptionPane.showInputDialog("Documento (CPF) (Obrigatório - somente números)");
-//                            documento = "12312312344";
+//                            documento = JOptionPane.showInputDialog("Documento (CPF) (Obrigatório - somente números)");
+                            documento = "12312312344";
                             paciente.setDocumento(documento);
                         } while (paciente.getDocumento().isEmpty());
 
                         // Contato
                         do {
-                            telefone = JOptionPane.showInputDialog("Número para contato incluindo DDD");
-//                            telefone = "123456789";
+//                            telefone = JOptionPane.showInputDialog("Número para contato incluindo DDD");
+                            telefone = "123456789";
                             contato.setTelefone(telefone);
 
-                            email = JOptionPane.showInputDialog("Email para contato");
-//                            email = "meu@email.com";
+//                            email = JOptionPane.showInputDialog("Email para contato");
+                            email = "meu@email.com";
                             contato.setEmail(email);
 
                             telOuEmail = contato.getTelefone().length() < 11 && contato.getEmail().isEmpty();
@@ -112,42 +112,42 @@ public class Main {
 
                         // Endereço
                         do {
-                            logradouro = JOptionPane.showInputDialog("Cadastrar endereço do usuário\n\nLogradouro (Obrigatório)");
-//                            logradouro = "Av. Lins de Vasconcelos";
+//                            logradouro = JOptionPane.showInputDialog("Cadastrar endereço do usuário\n\nLogradouro (Obrigatório)");
+                            logradouro = "Av. Lins de Vasconcelos";
                             endereco.setLogradouro(logradouro);
                         } while (endereco.getLogradouro().isEmpty());
 
                         do {
-                            numero = JOptionPane.showInputDialog("Número (Obrigatório)");
-//                            numero = "1222";
+//                            numero = JOptionPane.showInputDialog("Número (Obrigatório)");
+                            numero = "1222";
                             endereco.setNumero(numero);
                         } while (endereco.getNumero().isEmpty());
 
-                        complemento = JOptionPane.showInputDialog("Complemento");
-//                        complemento = "";
+//                        complemento = JOptionPane.showInputDialog("Complemento");
+                        complemento = "";
                         endereco.setComplemento(complemento);
 
                         do {
-                            bairro = JOptionPane.showInputDialog("Bairro (Obrigatório)");
-//                            bairro = "Aclimação";
+//                            bairro = JOptionPane.showInputDialog("Bairro (Obrigatório)");
+                            bairro = "Aclimação";
                             endereco.setBairro(bairro);
                         } while (endereco.getBairro().isEmpty());
 
                         do {
-                            cidade = JOptionPane.showInputDialog("Cidade (Obrigatório)");
-//                            cidade = "São Paulo";
+//                            cidade = JOptionPane.showInputDialog("Cidade (Obrigatório)");
+                            cidade = "São Paulo";
                             endereco.setCidade(cidade);
                         } while (endereco.getCidade().isEmpty());
 
                         do {
-                            estado = JOptionPane.showInputDialog("Estado (Obrigatório)");
-//                            estado = "SP";
+//                            estado = JOptionPane.showInputDialog("Estado (Obrigatório)");
+                            estado = "SP";
                             endereco.setEstado(estado);
                         } while (endereco.getEstado().isEmpty());
 
                         do {
-                            cep = JOptionPane.showInputDialog("CEP (Obrigatório - somente números)");
-//                            cep = "01001000";
+//                            cep = JOptionPane.showInputDialog("CEP (Obrigatório - somente números)");
+                            cep = "01001000";
                             endereco.setCep(cep);
                         } while (endereco.getCep().length() != 8);
 
@@ -158,17 +158,17 @@ public class Main {
 
                         // Rede Credenciada
                         do {
-                            nomeRede = JOptionPane.showInputDialog("--- Rede Credenciada ---\n\nNome da Rede Credenciada (Obrigatório)");
-//                            nomeRede = "Unimad";
+//                            nomeRede = JOptionPane.showInputDialog("--- Rede Credenciada ---\n\nNome da Rede Credenciada (Obrigatório)");
+                            nomeRede = "Unimad";
                         } while (nomeRede.isEmpty());
 
 
-                        codigoRede = JOptionPane.showInputDialog("Digite o código do Convênio");
-//                        codigoRede = "472";
+//                        codigoRede = JOptionPane.showInputDialog("Digite o código do Convênio");
+                        codigoRede = "472";
 
                         do {
-                            tipoDePlano = JOptionPane.showInputDialog("Digite o tipo de plano (Obrigatório)");
-//                            tipoDePlano = "Básico";
+//                            tipoDePlano = JOptionPane.showInputDialog("Digite o tipo de plano (Obrigatório)");
+                            tipoDePlano = "Básico";
                         } while (tipoDePlano.isEmpty());
 
                         redeCredenciada = new RedeCredenciada(nomeRede, codigoRede, tipoDePlano);
@@ -305,13 +305,13 @@ public class Main {
                                     // Abrir ocorrência
                                     case 1:
                                         do {
-                                            assuntoOcorrencia = JOptionPane.showInputDialog("Tema da ocorrência");
-//                                            assuntoOcorrencia = "Consulta online";
+//                                            assuntoOcorrencia = JOptionPane.showInputDialog("Tema da ocorrência");
+                                            assuntoOcorrencia = "Consulta online";
                                         } while (assuntoOcorrencia.isEmpty());
 
                                         do {
-                                            textoOcorrencia = JOptionPane.showInputDialog("Qual a ocorrência:");
-//                                            textoOcorrencia = "Não consigo encontrar a tela para conectar.";
+//                                            textoOcorrencia = JOptionPane.showInputDialog("Qual a ocorrência:");
+                                            textoOcorrencia = "Não consigo encontrar a tela para conectar.";
                                         } while (textoOcorrencia.isEmpty());
 
                                         paciente.abreOcorrencia(assuntoOcorrencia, textoOcorrencia);
@@ -321,15 +321,15 @@ public class Main {
                                     case 2:
                                         consulta = new Consulta();
                                         do {
-                                            localConsulta = JOptionPane.showInputDialog("Consulta será PRESENCIAL ou ONLINE?");
-//                                            localConsulta = "ONLINE";
+//                                            localConsulta = JOptionPane.showInputDialog("Consulta será PRESENCIAL ou ONLINE?");
+                                            localConsulta = "ONLINE";
                                             consulta.setLocal(localConsulta);
                                         } while (consulta.getLocal().isEmpty());
 
                                         // Data da consulta
                                         do {
-                                            dataStr = JOptionPane.showInputDialog("Data da consulta (DD/MM/YYYY) (Obrigatório)");
-//                                            dataStr = "05/04/2030";
+//                                            dataStr = JOptionPane.showInputDialog("Data da consulta (DD/MM/YYYY) (Obrigatório)");
+                                            dataStr = "05/04/2030";
 
                                             try {
                                                 dataHora = LocalDate.parse(dataStr, dtf);
@@ -354,8 +354,8 @@ public class Main {
                                             JOptionPane.showMessageDialog(null, "Paciente não possui consultas para serem reagendadas.");
                                         } else {
                                             do {
-                                                dataStr = JOptionPane.showInputDialog("Nova data da consulta (DD/MM/YYYY) (Obrigatório)");
-//                                                dataStr = "25/11/2030";
+//                                                dataStr = JOptionPane.showInputDialog("Nova data da consulta (DD/MM/YYYY) (Obrigatório)");
+                                                dataStr = "25/11/2030";
 
                                                 try {
                                                     dataHora = LocalDate.parse(dataStr, dtf);
@@ -412,7 +412,7 @@ public class Main {
 
                     // Logar Paciente:
                     case 2:
-                        // Verifica se o paciente existe
+                        // Verifica se to paciente existe
                         if (paciente.getDocumento() == null) {
                             JOptionPane.showMessageDialog(null, "Paciente não cadastrado. Favor cadastrar o paciente.");
                         } else {
@@ -435,13 +435,13 @@ public class Main {
                                         // Abrir ocorrência
                                         case 1:
                                             do {
-                                                assuntoOcorrencia = JOptionPane.showInputDialog("Tema da ocorrência");
-//                                                assuntoOcorrencia = "Consulta online";
+//                                                assuntoOcorrencia = JOptionPane.showInputDialog("Tema da ocorrência");
+                                                assuntoOcorrencia = "Consulta online";
                                             } while (assuntoOcorrencia.isEmpty());
 
                                             do {
-                                                textoOcorrencia = JOptionPane.showInputDialog("Qual a ocorrência:");
-//                                                textoOcorrencia = "Não consigo encontrar a tela para conectar.";
+//                                                textoOcorrencia = JOptionPane.showInputDialog("Qual a ocorrência:");
+                                                textoOcorrencia = "Não consigo encontrar a tela para conectar.";
                                             } while (textoOcorrencia.isEmpty());
 
                                             paciente.abreOcorrencia(assuntoOcorrencia, textoOcorrencia);
@@ -451,15 +451,15 @@ public class Main {
                                         case 2:
                                             consulta = new Consulta();
                                             do {
-                                                localConsulta = JOptionPane.showInputDialog("Consulta será PRESENCIAL ou ONLINE?");
-//                                                localConsulta = "ONLINE";
+//                                                localConsulta = JOptionPane.showInputDialog("Consulta será PRESENCIAL ou ONLINE?");
+                                                localConsulta = "ONLINE";
                                                 consulta.setLocal(localConsulta);
                                             } while (consulta.getLocal().isEmpty());
 
                                             // Data da consulta
                                             do {
-                                                dataStr = JOptionPane.showInputDialog("Data da consulta (DD/MM/YYYY) (Obrigatório)");
-//                                                dataStr = "05/04/2030";
+//                                                dataStr = JOptionPane.showInputDialog("Data da consulta (DD/MM/YYYY) (Obrigatório)");
+                                                dataStr = "05/04/2030";
 
                                                 try {
                                                     dataHora = LocalDate.parse(dataStr, dtf);
@@ -481,8 +481,8 @@ public class Main {
                                                 JOptionPane.showMessageDialog(null, "Paciente não possui consultas para serem reagendadas.");
                                             } else {
                                                 do {
-                                                    dataStr = JOptionPane.showInputDialog("Nova data da consulta (DD/MM/YYYY) (Obrigatório)");
-//                                                    dataStr = "25/11/2030";
+//                                                    dataStr = JOptionPane.showInputDialog("Nova data da consulta (DD/MM/YYYY) (Obrigatório)");
+                                                    dataStr = "25/11/2030";
 
                                                     try {
                                                         dataHora = LocalDate.parse(dataStr, dtf);
